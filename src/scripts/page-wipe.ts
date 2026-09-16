@@ -37,6 +37,7 @@ function onClick(event: MouseEvent): void {
   }
 
   if (url.origin !== location.origin) return;
+  if (url.pathname.includes('/admin')) return;
   if (url.pathname === location.pathname && url.search === location.search) return;
 
   event.preventDefault();

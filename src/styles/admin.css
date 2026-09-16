@@ -1,0 +1,155 @@
+:root {
+  --foret: #002d2d;
+  --canopee: #0a3d35;
+  --gold: #c8b568;
+  --creme: #f7f2e8;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--foret);
+  color: var(--creme);
+  font-family: Poppins, system-ui, sans-serif;
+}
+
+.admin {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.admin-kicker {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+h1 {
+  margin: 0.4rem 0 0;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.admin-lead {
+  color: rgb(247 242 232 / 0.7);
+  font-size: 0.92rem;
+}
+
+.admin-login,
+.admin-app {
+  margin-top: 2rem;
+}
+
+form,
+.admin-card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.25rem;
+  border: 1px solid rgb(247 242 232 / 0.12);
+  background: rgb(247 242 232 / 0.04);
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid rgb(247 242 232 / 0.2);
+  background: rgb(0 20 20 / 0.35);
+  color: var(--creme);
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+}
+
+button {
+  justify-self: start;
+  border: 0;
+  background: var(--gold);
+  color: var(--foret);
+  padding: 0.65rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button[data-logout],
+.admin-danger {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid rgb(200 181 104 / 0.4);
+}
+
+.admin-error {
+  color: #f3c1c1;
+  font-size: 0.85rem;
+}
+
+.admin-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.75rem 0 1rem;
+}
+
+.admin-tabs button {
+  background: transparent;
+  color: rgb(247 242 232 / 0.7);
+  border: 1px solid rgb(247 242 232 / 0.15);
+}
+
+.admin-tabs button.is-on {
+  background: var(--gold);
+  color: var(--foret);
+  border-color: var(--gold);
+}
+
+.admin-panel {
+  display: none;
+}
+.admin-panel.is-on {
+  display: block;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  text-align: start;
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid rgb(247 242 232 / 0.1);
+  vertical-align: top;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 800px) {
+  .admin-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+code {
+  color: var(--gold);
+}

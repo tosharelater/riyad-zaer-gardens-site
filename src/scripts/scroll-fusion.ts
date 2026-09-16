@@ -131,14 +131,12 @@ function initHeroCrossfadeOnly(): void {
 
   let index = 0;
   const hold = 6200;
-  const fade = 900;
 
   const cycle = () => {
+    const next = (index + 1) % slides.length;
+    slides[next]?.classList.add('is-active');
     slides[index]?.classList.remove('is-active');
-    window.setTimeout(() => {
-      index = (index + 1) % slides.length;
-      slides[index]?.classList.add('is-active');
-    }, fade);
+    index = next;
   };
 
   window.setInterval(cycle, hold);

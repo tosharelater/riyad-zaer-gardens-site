@@ -24,6 +24,9 @@ const assetBase = import.meta.env.BASE_URL || '/';
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#002D2D" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <style is:global define:vars={{
       fontRegular: `url("${assetBase}fonts/audrey/Audrey-Regular.otf")`,
@@ -67,9 +70,11 @@ const assetBase = import.meta.env.BASE_URL || '/';
       import { initSplash } from '../scripts/splash';
       import { initPageWipe } from '../scripts/page-wipe';
       import { initScrollFusion } from '../scripts/scroll-fusion';
+      import { initLightbox } from '../scripts/lightbox';
       initLangToggle();
       initUi();
       initPageWipe();
+      initLightbox();
       initSplash().then(() => initScrollFusion());
     </script>
   </body>

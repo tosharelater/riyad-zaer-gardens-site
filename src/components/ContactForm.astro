@@ -1,14 +1,14 @@
 ---
-import { site } from '../data/site';
+import { site, typologies } from '../data/site';
 const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
 ---
 
-<form class="grid gap-5 reveal" data-contact-form data-api={apiUrl}>
+<form class="grid gap-5 reveal" data-contact-form data-api={apiUrl} data-whatsapp={site.whatsapp}>
   <div>
     <p class="kicker kicker--ink mb-2" data-i18n="form_title">Formulaire</p>
     <h2 class="font-display text-2xl">
-      <span data-bilingual-fr>Envoyez-nous un message</span>
-      <span data-bilingual-ar hidden>أرسلوا لنا رسالة</span>
+      <span data-bilingual-fr>Réservez une visite</span>
+      <span data-bilingual-ar hidden>احجزوا زيارة</span>
     </h2>
   </div>
 
@@ -25,6 +25,19 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
     <input class="input" type="email" name="email" autocomplete="email" />
   </label>
   <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_interest">Typologie</span>
+    <select class="input" name="interest" data-interest>
+      <option value="" data-i18n="form_interest_any">À préciser</option>
+      {typologies.map((t) => (
+        <option value={t.id}>{t.titleFr}</option>
+      ))}
+    </select>
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_slot">Créneau de visite</span>
+    <input class="input" type="text" name="preferred_slot" data-i18n-placeholder="form_slot_placeholder" placeholder="Ex. samedi 10h" />
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
     <span data-i18n="form_message">Message</span>
     <textarea class="input min-h-32 resize-y" name="message" required></textarea>
   </label>
@@ -39,27 +52,51 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
 </form>
 
 <script>
+  const params = new URLSearchParams(location.search);
+  const preset = params.get('interest');
+  if (preset) {
+    const select = document.querySelector<HTMLSelectElement>('[data-interest]');
+    if (select) select.value = preset;
+  }
+
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const api = form.dataset.api ?? '';
+      const wa = form.dataset.whatsapp ?? '';
       const success = form.querySelector('[data-form-success]');
       const error = form.querySelector('[data-form-error]');
       success?.classList.add('hidden');
       error?.classList.add('hidden');
 
       const data = Object.fromEntries(new FormData(form));
+      const payload = {
+        name: String(data.name || ''),
+        phone: String(data.phone || ''),
+        email: String(data.email || '') || null,
+        message: String(data.message || ''),
+        interest: String(data.interest || '') || null,
+        preferred_slot: String(data.preferred_slot || '') || null,
+      };
+
       try {
         const res = await fetch(`${api}/api/leads`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         });
         if (!res.ok) throw new Error('fail');
         form.reset();
         success?.classList.remove('hidden');
       } catch {
-        error?.classList.remove('hidden');
+        const text = encodeURIComponent(
+          `Bonjour, je suis ${payload.name}. Tél: ${payload.phone}. Intérêt: ${payload.interest || 'visite'}. Créneau: ${payload.preferred_slot || 'à convenir'}. ${payload.message}`,
+        );
+        if (wa) window.open(`${wa}?text=${text}`, '_blank', 'noopener');
+        success?.classList.remove('hidden');
+        if (success) success.textContent = success.getAttribute('data-i18n') === 'form_success'
+          ? 'Message préparé sur WhatsApp — envoyez-le pour nous joindre.'
+          : (success.textContent ?? '');
       }
     });
   });

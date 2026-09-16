@@ -1,0 +1,62 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Tableau de bord">
+  <div class="admin" data-admin>
+    <section class="admin-login" data-admin-login>
+      <p class="admin-kicker">La Manoussa</p>
+      <h1>Administration</h1>
+      <p class="admin-lead">Clé locale par défaut : <code>rzg-local-admin</code></p>
+      <form data-login-form>
+        <label>
+          Clé admin
+          <input type="password" name="key" required autocomplete="current-password" />
+        </label>
+        <button type="submit">Entrer</button>
+        <p class="admin-error" data-login-error hidden></p>
+      </form>
+    </section>
+
+    <section class="admin-app" data-admin-app hidden>
+      <header class="admin-top">
+        <div>
+          <p class="admin-kicker">Riyad Zaer Gardens</p>
+          <h1>Tableau de bord</h1>
+        </div>
+        <div class="admin-top__meta">
+          <p data-stats></p>
+          <button type="button" data-logout>Déconnexion</button>
+        </div>
+      </header>
+
+      <nav class="admin-tabs" data-tabs>
+        <button type="button" data-tab="leads" class="is-on">Leads</button>
+        <button type="button" data-tab="stock">Stock & prix</button>
+        <button type="button" data-tab="chantier">Chantier</button>
+        <button type="button" data-tab="gallery">Galerie</button>
+        <button type="button" data-tab="faq">FAQ</button>
+        <button type="button" data-tab="site">Site</button>
+      </nav>
+
+      <div class="admin-panel is-on" data-panel="leads">
+        <div data-leads></div>
+      </div>
+      <div class="admin-panel" data-panel="stock">
+        <div data-stock></div>
+      </div>
+      <div class="admin-panel" data-panel="chantier">
+        <div data-chantier></div>
+      </div>
+      <div class="admin-panel" data-panel="gallery">
+        <div data-gallery></div>
+      </div>
+      <div class="admin-panel" data-panel="faq">
+        <div data-faq></div>
+      </div>
+      <div class="admin-panel" data-panel="site">
+        <div data-site></div>
+      </div>
+    </section>
+  </div>
+</AdminLayout>

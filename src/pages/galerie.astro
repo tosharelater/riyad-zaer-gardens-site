@@ -15,17 +15,25 @@ import { galleryImages } from '../data/site';
       </div>
     </section>
     <section class="bg-creme">
-      <div class="mx-auto grid max-w-7xl sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mx-auto grid max-w-7xl sm:grid-cols-2 lg:grid-cols-3" data-lightbox>
         {galleryImages.map((img, i) => (
           <figure class:list={['relative min-h-[18rem] overflow-hidden bg-foret', i === 0 && 'sm:col-span-2 sm:min-h-[32rem]']}>
-            <img
-              src={img.src}
-              alt={img.altFr}
-              loading="lazy"
-              class="h-full w-full object-cover transition duration-700 ease-out hover:scale-[1.04]"
-              data-bilingual-alt-fr={img.altFr}
-              data-bilingual-alt-ar={img.altAr}
-            />
+            <button
+              type="button"
+              class="h-full w-full"
+              data-lightbox-item
+              data-src={img.src}
+              data-alt={img.altFr}
+            >
+              <img
+                src={img.src}
+                alt={img.altFr}
+                loading="lazy"
+                class="h-full w-full object-cover transition duration-700 ease-out hover:scale-[1.04]"
+                data-bilingual-alt-fr={img.altFr}
+                data-bilingual-alt-ar={img.altAr}
+              />
+            </button>
           </figure>
         ))}
       </div>

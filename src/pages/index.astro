@@ -11,7 +11,7 @@ import {
 } from '../data/home-content';
 import { withBase } from '../lib/base';
 
-const heroSlides = [withBase('/gallery/render-7.jpg'), withBase('/gallery/render-4.jpg'), withBase('/gallery/render-1.jpg')];
+const heroSlides = [withBase('/gallery/render-11.jpg'), withBase('/gallery/render-6.jpg'), withBase('/gallery/render-5.jpg')];
 const typoImages = [withBase('/gallery/render-1.jpg'), withBase('/gallery/render-6.jpg'), withBase('/gallery/render-8.jpg')];
 const progressPct = 55;
 ---
@@ -20,14 +20,18 @@ const progressPct = 55;
   <div class="fusion-page" data-fusion-page>
     <div class="fusion-progress" data-scroll-progress aria-hidden="true"></div>
 
-    <section class="fusion-split bg-foret text-creme">
-      <div class="fusion-pane" data-reveal-group>
+    <section class="fusion-hero text-creme">
+      <div class="fusion-hero__media fusion-media fusion-media--crossfade" data-hero-crossfade>
+        {heroSlides.map((src, i) => <img src={src} alt="" class:list={[i === 0 && 'is-active']} />)}
+      </div>
+      <div class="fusion-hero__veil" aria-hidden="true"></div>
+      <div class="fusion-hero__copy" data-reveal-group>
         <p class="fusion-kicker reveal-fusion" data-i18n="hero_kicker">Nouveau pôle urbain à Rabat</p>
         <h1 class="fusion-h1 reveal-fusion reveal-fusion--left">
           <span data-bilingual-fr>Un quartier neuf.<br />Une adresse durable.</span>
           <span data-bilingual-ar hidden>حي جديد.<br />عنوان دائم.</span>
         </h1>
-        <p class="fusion-lead text-creme/78 reveal-fusion">
+        <p class="fusion-lead text-creme/82 reveal-fusion">
           <span data-bilingual-fr>120 appartements F3 & F4 et 49 fonds de commerce à Aïn Aouda — livraison {site.delivery}.</span>
           <span data-bilingual-ar hidden>120 شقة F3 و F4 و 49 محلاً في عين عودة — التسليم {site.delivery}.</span>
         </p>
@@ -50,7 +54,7 @@ const progressPct = 55;
           </div>
         </dl>
 
-        <p class="mt-6 text-sm text-creme/65 reveal-fusion">
+        <p class="mt-6 text-sm text-creme/70 reveal-fusion">
           {site.priceFrom} · <span data-bilingual-fr>aides jusqu'à {site.aidAmount}</span>
           <span data-bilingual-ar hidden>دعم حتى {site.aidAmount}</span>
         </p>
@@ -64,10 +68,6 @@ const progressPct = 55;
             <span data-bilingual-ar hidden>حدد زيارة</span>
           </a>
         </div>
-      </div>
-
-      <div class="fusion-media fusion-media--crossfade" data-hero-crossfade>
-        {heroSlides.map((src) => <img src={src} alt="" />)}
       </div>
     </section>
 
@@ -131,6 +131,10 @@ const progressPct = 55;
               <p class="mt-6 font-medium text-canopee">
                 <span data-bilingual-fr>{t.priceFr}</span>
                 <span data-bilingual-ar hidden>{t.priceAr}</span>
+              </p>
+              <p class="mt-3 text-sm text-foret/55">
+                <span data-bilingual-fr>{t.remaining} lots restants</span>
+                <span data-bilingual-ar hidden>{t.remaining} وحدات متبقية</span>
               </p>
             </div>
           </article>

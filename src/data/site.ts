@@ -27,6 +27,7 @@ export const typologies = [
     priceAr: 'ابتداءً من 420,000 درهم',
     bodyFr: 'Séjour lumineux, deux chambres, cuisine ouverte — idéal pour démarrer ou se réancrer.',
     bodyAr: 'صالón مشرق، غرفتان، مطبخ مفتوح — مثالي للبداية أو للاستقرار.',
+    remaining: 48,
   },
   {
     id: 'f4',
@@ -37,6 +38,7 @@ export const typologies = [
     priceAr: 'ابتداءً من 480,000 درهم',
     bodyFr: 'Troisième chambre, plus d\'espace familial, volumes clairs.',
     bodyAr: 'غرفة ثالثة، مساحة عائلية أكبر، حجم واضح.',
+    remaining: 36,
   },
   {
     id: 'fonds',
@@ -47,6 +49,7 @@ export const typologies = [
     priceAr: 'ابتداءً من 15,000 درهم / م²',
     bodyFr: 'Locaux en rez-de-chaussée au cœur du nouveau pôle urbain.',
     bodyAr: 'محلات في الطابق الأرضي في قلب القطب الحضري الجديد.',
+    remaining: 22,
   },
 ] as const;
 
