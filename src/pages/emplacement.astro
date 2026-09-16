@@ -20,9 +20,9 @@ import { withBase } from '../lib/base';
           <span data-bilingual-ar hidden>بين المدينة والطبيعة، في عين عودة</span>
         </h1>
         <p class="fusion-lead text-foret/70 reveal-fusion">{site.address}</p>
-        <ul class="fusion-list mt-10 border-foret/10 text-foret">
+        <ul class="fusion-list mt-10 text-foret" data-line-group="access">
           {accessPoints.map((p) => (
-            <li class="border-foret/10 reveal-fusion">
+            <li class="reveal-fusion">
               <span data-bilingual-fr>{p.fr}</span>
               <span data-bilingual-ar hidden>{p.ar}</span>
             </li>

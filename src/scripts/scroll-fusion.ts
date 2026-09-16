@@ -1,15 +1,15 @@
 export function initScrollFusion(): void {
   if (!document.querySelector('[data-fusion-page]')) return;
 
-  document.documentElement.style.scrollBehavior = 'smooth';
-
   initHeaderScroll();
+  initHeaderHide();
   initScrollProgress();
   initFusionReveal();
   initCounterReveal();
   initHeroCrossfadeOnly();
   initMediaReveal();
   initRowReveal();
+  initTypoTicks();
   initInView('[data-fill-track]', 'is-in');
   initInView('[data-phase-track]', 'is-in');
 }
@@ -27,6 +27,33 @@ function initHeaderScroll(): void {
   };
   window.addEventListener('scroll', update, { passive: true });
   update();
+}
+
+function initHeaderHide(): void {
+  if (!document.querySelector('[data-fx-lab]')) return;
+  const header = document.querySelector<HTMLElement>('[data-fusion-header]');
+  if (!header) return;
+
+  let last = window.scrollY;
+  let ticking = false;
+  const update = () => {
+    const y = window.scrollY;
+    const open = header.querySelector('[data-nav-toggle]')?.getAttribute('aria-expanded') === 'true';
+    header.classList.toggle('is-away', !open && y > last && y > 90);
+    last = y;
+    ticking = false;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
 }
 
 function initScrollProgress(): void {
@@ -186,6 +213,43 @@ function initRowReveal(): void {
   );
 
   rows.forEach((r) => observer.observe(r));
+}
+
+function initTypoTicks(): void {
+  const ticks = document.querySelector<HTMLElement>('[data-typo-ticks]');
+  const stack = document.querySelector<HTMLElement>('.typo-stack');
+  const panels = document.querySelectorAll<HTMLElement>('[data-typo-tick]');
+  if (!ticks || !panels.length) return;
+
+  const buttons = [...ticks.querySelectorAll<HTMLButtonElement>('button')];
+
+  const panelIo = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const i = Number(entry.target.getAttribute('data-typo-tick'));
+        buttons.forEach((b, j) => b.classList.toggle('is-on', j === i));
+      });
+    },
+    { threshold: 0.5 },
+  );
+  panels.forEach((p) => panelIo.observe(p));
+
+  if (stack) {
+    const stackIo = new IntersectionObserver(
+      (entries) => {
+        ticks.classList.toggle('is-on', entries.some((e) => e.isIntersecting));
+      },
+      { threshold: 0.08 },
+    );
+    stackIo.observe(stack);
+  }
+
+  buttons.forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      panels[i]?.scrollIntoView({ block: 'start' });
+    });
+  });
 }
 
 function initInView(selector: string, className: string): void {

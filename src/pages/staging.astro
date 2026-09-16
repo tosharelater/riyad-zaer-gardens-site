@@ -1,6 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { site, typologies, amenities, timeline, faq, galleryImages } from '../data/site';
+import { site, typologies, amenities, timeline, faq } from '../data/site';
 import {
   poleUrban,
   accessPoints,
@@ -14,18 +14,19 @@ import { withBase } from '../lib/base';
 const heroSlides = [withBase('/gallery/render-11.jpg'), withBase('/gallery/render-6.jpg'), withBase('/gallery/render-5.jpg')];
 const typoImages = [withBase('/gallery/render-1.jpg'), withBase('/gallery/render-6.jpg'), withBase('/gallery/render-8.jpg')];
 const progressPct = 55;
-const moreAmenities = [
-  { fr: 'Halls d\'entrée soignés', ar: 'مداخل منسقة' },
-  { fr: 'Menuiseries et finitions contemporaines', ar: 'نجارة وتشطيبات معاصرة' },
-];
-const amenityList = [...amenities, ...moreAmenities];
 ---
 
-<PageLayout title="Accueil" current="home">
-  <div class="fusion-page" data-fusion-page data-fx-lab>
+<PageLayout title="Staging — Accueil" current="home" noindex>
+  <div class="fusion-page" data-fusion-page>
     <div class="fusion-progress" data-scroll-progress aria-hidden="true"></div>
+    <p class="staging-flag">
+      Staging A — typologies ·
+      <a href={withBase('/')}>site live</a>
+      ·
+      <a href={withBase('/admin/')}>admin</a>
+    </p>
 
-    <section class="fusion-hero fusion-hero--ken text-creme">
+    <section class="fusion-hero text-creme">
       <div class="fusion-hero__media fusion-media fusion-media--crossfade" data-hero-crossfade>
         {heroSlides.map((src, i) => <img src={src} alt="" class:list={[i === 0 && 'is-active']} />)}
       </div>
@@ -40,6 +41,7 @@ const amenityList = [...amenities, ...moreAmenities];
           <span data-bilingual-fr>120 appartements F3 & F4 et 49 fonds de commerce à Aïn Aouda — livraison {site.delivery}.</span>
           <span data-bilingual-ar hidden>120 شقة F3 و F4 و 49 محلاً في عين عودة — التسليم {site.delivery}.</span>
         </p>
+
         <dl class="fusion-nums reveal-fusion">
           <div>
             <dt><span data-count-to={site.apartments}>0</span></dt>
@@ -57,6 +59,11 @@ const amenityList = [...amenities, ...moreAmenities];
             </dd>
           </div>
         </dl>
+
+        <p class="mt-6 text-sm text-creme/70 reveal-fusion">
+          {site.priceFrom} · <span data-bilingual-fr>aides jusqu'à {site.aidAmount}</span>
+          <span data-bilingual-ar hidden>دعم حتى {site.aidAmount}</span>
+        </p>
         <div class="mt-8 flex flex-wrap gap-3 reveal-fusion">
           <a href={withBase('/projet/')} class="btn btn-solid">
             <span data-bilingual-fr>Voir le projet</span>
@@ -107,11 +114,6 @@ const amenityList = [...amenities, ...moreAmenities];
     </section>
 
     <section id="typologies" class="typo-parallax">
-      <div class="typo-ticks" data-typo-ticks>
-        {typologies.map((t) => (
-          <button type="button" aria-label={t.titleFr}></button>
-        ))}
-      </div>
       <div class="typo-stack">
         <div class="typo-panel typo-panel--title" style="z-index:1">
           <p class="fusion-kicker">02 — Typologies</p>
@@ -120,7 +122,7 @@ const amenityList = [...amenities, ...moreAmenities];
         {typologies.map((t, i) => (
           <article
             class:list={['typo-panel', 'typo-panel--split', i === typologies.length - 1 && 'typo-panel--last']}
-            data-typo-tick={i}
+            data-typo-panel
             style={`z-index:${i + 2}`}
           >
             <div class="typo-panel__media">
@@ -158,7 +160,7 @@ const amenityList = [...amenities, ...moreAmenities];
           <span data-bilingual-ar hidden>راحة يومية</span>
         </h2>
         <ul class="fusion-list fusion-list--soft mt-10 text-foret" data-line-group="amenities">
-          {amenityList.map((a) => (
+          {amenities.map((a) => (
             <li class="reveal-fusion">
               <span data-bilingual-fr>{a.fr}</span>
               <span data-bilingual-ar hidden>{a.ar}</span>
@@ -186,10 +188,8 @@ const amenityList = [...amenities, ...moreAmenities];
       </div>
     </section>
 
-    <section id="chantier" class="chantier-shot">
-      <img class="chantier-shot__bg" src={withBase('/gallery/render-4.jpg')} alt="" />
-      <div class="chantier-shot__veil" aria-hidden="true"></div>
-      <div class="chantier-shot__inner mx-auto max-w-5xl px-4 sm:px-6" data-reveal-group>
+    <section id="chantier" class="fusion-band bg-foret text-creme">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6" data-reveal-group>
         <p class="fusion-kicker reveal-fusion">05 — Chantier</p>
         <h2 class="fusion-h2 mt-6 reveal-fusion">
           <span data-bilingual-fr>{chantierDetail.phaseFr}</span>
@@ -206,66 +206,43 @@ const amenityList = [...amenities, ...moreAmenities];
           </div>
           <div class="fusion-track mt-3" data-fill-track style={`--fill:${progressPct}%`}><span></span></div>
         </div>
-        <ul class="home-phase-line reveal-fusion">
+        <ol class="fusion-phases reveal-fusion" data-phase-track>
           {timeline.map((step, i) => (
             <li class:list={[{ 'is-now': i === 2 }]}>
-              <span data-bilingual-fr>{step.titleFr}</span>
-              <span data-bilingual-ar hidden>{step.titleAr}</span>
+              <p class="text-[0.6rem] uppercase tracking-wider text-gold-soft">
+                <span data-bilingual-fr>{step.statusFr}</span>
+                <span data-bilingual-ar hidden>{step.statusAr}</span>
+              </p>
+              <p class="font-display mt-2 text-sm">
+                <span data-bilingual-fr>{step.titleFr}</span>
+                <span data-bilingual-ar hidden>{step.titleAr}</span>
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section id="emplacement" class="fusion-split fusion-split--short bg-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">06 — Emplacement</p>
+        <p class="fusion-giant mt-8 reveal-fusion reveal-fusion--left">25'</p>
+        <p class="mt-4 text-xl reveal-fusion">
+          <span data-bilingual-fr>minutes de Rabat</span>
+          <span data-bilingual-ar hidden>دقيقة من الرباط</span>
+        </p>
+        <p class="fusion-lead text-foret/70 reveal-fusion">{site.address}</p>
+        <ul class="fusion-list fusion-list--soft mt-10 text-foret" data-line-group="access">
+          {accessPoints.map((p) => (
+            <li class="reveal-fusion">
+              <span data-bilingual-fr>{p.fr}</span>
+              <span data-bilingual-ar hidden>{p.ar}</span>
             </li>
           ))}
         </ul>
       </div>
-    </section>
-
-    <section id="emplacement" class="bg-creme">
-      <div class="fusion-split fusion-split--short">
-        <div class="fusion-pane" data-reveal-group>
-          <p class="fusion-kicker reveal-fusion">06 — Emplacement</p>
-          <p class="fusion-giant mt-8 reveal-fusion reveal-fusion--left">
-            <span data-count-to="25" data-count-suffix="'">0</span>
-          </p>
-          <p class="mt-4 text-xl reveal-fusion">
-            <span data-bilingual-fr>minutes de Rabat</span>
-            <span data-bilingual-ar hidden>دقيقة من الرباط</span>
-          </p>
-          <p class="fusion-lead text-foret/70 reveal-fusion">{site.address}</p>
-          <ul class="fusion-list fusion-list--soft mt-10 text-foret" data-line-group="access">
-            {accessPoints.map((p) => (
-              <li class="reveal-fusion">
-                <span data-bilingual-fr>{p.fr}</span>
-                <span data-bilingual-ar hidden>{p.ar}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div class="fusion-media" data-media-reveal>
-          <img src={withBase('/gallery/render-11.jpg')} alt="" loading="lazy" />
-        </div>
-      </div>
-      <div class="fusion-map">
-        <iframe
-          title="Riyad Zaer Gardens — Aïn Aouda"
-          src="https://maps.google.com/maps?q=Ain%20Aouda%20Avenue%20Mohamed%20VI%20Rabat&z=14&output=embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
-    </section>
-
-    <section class="bg-foret" aria-label="Galerie">
-      <div class="mx-auto max-w-7xl px-4 pt-16 sm:px-6" data-reveal-group>
-        <p class="fusion-kicker reveal-fusion">Galerie</p>
-        <h2 class="fusion-h2 mt-6 text-creme reveal-fusion">
-          <span data-bilingual-fr>Le quartier, en images</span>
-          <span data-bilingual-ar hidden>الحي، في صور</span>
-        </h2>
-      </div>
-      <div class="film-strip mt-10">
-        <div class="film-strip__track">
-          {[...galleryImages, ...galleryImages].map((img) => (
-            <img src={img.src} alt="" loading="lazy" />
-          ))}
-        </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-11.jpg')} alt="" loading="lazy" />
       </div>
     </section>
 
@@ -315,7 +292,7 @@ const amenityList = [...amenities, ...moreAmenities];
       <div class="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 md:flex-row md:items-end md:justify-between" data-reveal-group>
         <div class="reveal-fusion">
           <p class="fusion-kicker">Visite</p>
-          <h2 class="fusion-h2 fusion-underline mt-6">
+          <h2 class="fusion-h2 mt-6">
             <span data-bilingual-fr>{visitInfo.ctaFr}</span>
             <span data-bilingual-ar hidden>{visitInfo.ctaAr}</span>
           </h2>

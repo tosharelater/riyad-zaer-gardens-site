@@ -117,9 +117,9 @@ const progressPct = 55;
           <span data-bilingual-fr>Confort au quotidien</span>
           <span data-bilingual-ar hidden>راحة يومية</span>
         </h2>
-        <ul class="fusion-list mt-10 border-foret/10 text-foret">
+        <ul class="fusion-list mt-10 text-foret" data-line-group="amenities">
           {amenities.map((a) => (
-            <li class="border-foret/10 reveal-fusion">
+            <li class="reveal-fusion">
               <span data-bilingual-fr>{a.fr}</span>
               <span data-bilingual-ar hidden>{a.ar}</span>
             </li>
@@ -133,7 +133,7 @@ const progressPct = 55;
           <span data-bilingual-fr>Jusqu'à {site.aidAmount} — indicatif {site.priceWithAid} avec aide.</span>
           <span data-bilingual-ar hidden>حتى {site.aidAmount} — تقريبي {site.priceWithAid} مع الدعم.</span>
         </p>
-        <ol class="fusion-steps mt-10">
+        <ol class="fusion-steps mt-10" data-line-group="aids">
           {aidSteps.map((step) => (
             <li class="reveal-fusion">
               <span>

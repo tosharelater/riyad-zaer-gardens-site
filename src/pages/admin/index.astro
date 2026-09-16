@@ -6,11 +6,11 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
   <div class="admin" data-admin>
     <section class="admin-login" data-admin-login>
       <p class="admin-kicker">La Manoussa</p>
-      <h1>Administration</h1>
-      <p class="admin-lead">Clé locale par défaut : <code>rzg-local-admin</code></p>
+      <h1>Admin</h1>
+      <p class="admin-lead">Clé locale : <code>rzg-local-admin</code></p>
       <form data-login-form>
         <label>
-          Clé admin
+          Clé
           <input type="password" name="key" required autocomplete="current-password" />
         </label>
         <button type="submit">Entrer</button>
@@ -22,39 +22,114 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       <header class="admin-top">
         <div>
           <p class="admin-kicker">Riyad Zaer Gardens</p>
-          <h1>Tableau de bord</h1>
+          <h1>Contenu</h1>
         </div>
         <div class="admin-top__meta">
           <p data-stats></p>
-          <button type="button" data-logout>Déconnexion</button>
+          <a href="../">Site</a>
+          <a href="../staging/">Staging A</a>
+          <button type="button" data-logout>Sortir</button>
         </div>
       </header>
 
       <nav class="admin-tabs" data-tabs>
         <button type="button" data-tab="leads" class="is-on">Leads</button>
-        <button type="button" data-tab="stock">Stock & prix</button>
+        <button type="button" data-tab="stock">Typologies</button>
+        <button type="button" data-tab="lists">Listes</button>
         <button type="button" data-tab="chantier">Chantier</button>
         <button type="button" data-tab="gallery">Galerie</button>
         <button type="button" data-tab="faq">FAQ</button>
-        <button type="button" data-tab="site">Site</button>
+        <button type="button" data-tab="site">Textes</button>
       </nav>
+
+      <p class="admin-hint">Ajoutez autant d’éléments que nécessaire. Les listes (équipements, emplacement, aides) s’affichent sur le site dès qu’elles sont enregistrées.</p>
 
       <div class="admin-panel is-on" data-panel="leads">
         <div data-leads></div>
       </div>
+
       <div class="admin-panel" data-panel="stock">
+        <form class="admin-add" data-add-typo>
+          <p class="admin-add__title">Nouvelle typologie</p>
+          <label>Slug<input name="slug" placeholder="f5" required /></label>
+          <label>Titre FR<input name="title_fr" required /></label>
+          <label>Titre AR<input name="title_ar" /></label>
+          <label>Surface<input name="surface" placeholder="90 m²" /></label>
+          <label>Prix FR<input name="price_fr" /></label>
+          <label>Prix AR<input name="price_ar" /></label>
+          <label>Restant<input name="remaining" type="number" value="0" /></label>
+          <label>Lien plan<input name="plan_url" /></label>
+          <label class="admin-span">Texte FR<textarea name="body_fr"></textarea></label>
+          <label class="admin-span">Texte AR<textarea name="body_ar"></textarea></label>
+          <button type="submit">Ajouter</button>
+        </form>
         <div data-stock></div>
       </div>
+
+      <div class="admin-panel" data-panel="lists">
+        <form class="admin-add" data-add-line>
+          <p class="admin-add__title">Nouvelle ligne</p>
+          <label>Groupe
+            <select name="group">
+              <option value="amenities">Équipements</option>
+              <option value="access">Emplacement</option>
+              <option value="aids">Aides</option>
+            </select>
+          </label>
+          <label>Ordre<input name="sort_order" type="number" value="10" /></label>
+          <label class="admin-span">Texte FR<input name="text_fr" required /></label>
+          <label class="admin-span">Texte AR<input name="text_ar" /></label>
+          <button type="submit">Ajouter</button>
+        </form>
+        <div data-lines></div>
+      </div>
+
       <div class="admin-panel" data-panel="chantier">
+        <form class="admin-add" data-add-step>
+          <p class="admin-add__title">Nouvelle étape</p>
+          <label>Ordre<input name="sort_order" type="number" value="6" /></label>
+          <label>Statut FR<input name="status_fr" placeholder="À venir" /></label>
+          <label>Statut AR<input name="status_ar" /></label>
+          <label>Titre FR<input name="title_fr" required /></label>
+          <label>Titre AR<input name="title_ar" /></label>
+          <button type="submit">Ajouter</button>
+        </form>
         <div data-chantier></div>
       </div>
+
       <div class="admin-panel" data-panel="gallery">
+        <form class="admin-add" data-add-gal>
+          <p class="admin-add__title">Nouveau visuel</p>
+          <label class="admin-span">URL<input name="url" placeholder="/gallery/render-13.jpg" required /></label>
+          <label>Alt FR<input name="alt_fr" /></label>
+          <label>Alt AR<input name="alt_ar" /></label>
+          <label>Ordre<input name="sort_order" type="number" value="13" /></label>
+          <button type="submit">Ajouter</button>
+        </form>
         <div data-gallery></div>
       </div>
+
       <div class="admin-panel" data-panel="faq">
+        <form class="admin-add" data-add-faq>
+          <p class="admin-add__title">Nouvelle question</p>
+          <label class="admin-span">Question FR<input name="question_fr" required /></label>
+          <label class="admin-span">Question AR<input name="question_ar" /></label>
+          <label class="admin-span">Réponse FR<textarea name="answer_fr" required></textarea></label>
+          <label class="admin-span">Réponse AR<textarea name="answer_ar"></textarea></label>
+          <label>Ordre<input name="sort_order" type="number" value="10" /></label>
+          <button type="submit">Ajouter</button>
+        </form>
         <div data-faq></div>
       </div>
+
       <div class="admin-panel" data-panel="site">
+        <form class="admin-add" data-add-site>
+          <p class="admin-add__title">Nouveau champ</p>
+          <label>Clé<input name="key" placeholder="price_from" required /></label>
+          <label>FR<input name="value_fr" required /></label>
+          <label>AR<input name="value_ar" /></label>
+          <button type="submit">Ajouter</button>
+        </form>
         <div data-site></div>
       </div>
     </section>

@@ -2,9 +2,13 @@ import { strings, type Lang } from '../i18n/strings';
 
 const STORAGE_KEY = 'rzg-lang';
 
-export function initLangToggle(): void {
+export function refreshLang(): void {
   const saved = (localStorage.getItem(STORAGE_KEY) as Lang | null) ?? 'fr';
   applyLang(saved);
+}
+
+export function initLangToggle(): void {
+  refreshLang();
 
   document.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach((btn) => {
     btn.addEventListener('click', () => {

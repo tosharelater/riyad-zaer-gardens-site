@@ -82,8 +82,63 @@ export function initAdmin(): void {
     });
   });
 
+  bindCreate('[data-add-typo]', '/api/admin/typologies', (data) => ({
+    ...data,
+    remaining: Number(data.remaining || 0),
+  }));
+  bindCreate('[data-add-line]', '/api/admin/lines', (data) => ({
+    ...data,
+    sort_order: Number(data.sort_order || 0),
+  }));
+  bindCreate('[data-add-step]', '/api/admin/timeline', (data) => ({
+    ...data,
+    sort_order: Number(data.sort_order || 0),
+  }));
+  bindCreate('[data-add-gal]', '/api/admin/gallery', (data) => ({
+    ...data,
+    sort_order: Number(data.sort_order || 0),
+  }));
+  bindCreate('[data-add-faq]', '/api/admin/faq', (data) => ({
+    ...data,
+    sort_order: Number(data.sort_order || 0),
+  }));
+
+  root.querySelector<HTMLFormElement>('[data-add-site]')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    await req(`/api/admin/site/${encodeURIComponent(data.key)}`, {
+      method: 'PUT',
+      body: JSON.stringify({ value_fr: data.value_fr, value_ar: data.value_ar || '' }),
+    });
+    form.reset();
+    await loadAll();
+  });
+
+  function bindCreate(selector: string, path: string, map: (data: Record<string, string>) => unknown) {
+    root.querySelector<HTMLFormElement>(selector)?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.currentTarget as HTMLFormElement;
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      await req(path, { method: 'POST', body: JSON.stringify(map(data)) });
+      form.reset();
+      await loadAll();
+    });
+  }
+
+  function bindDelete(container: Element, selector: string, pathFor: (id: string) => string) {
+    container.querySelectorAll<HTMLButtonElement>(selector).forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        if (!id || !confirm('Supprimer ?')) return;
+        await req(pathFor(id), { method: 'DELETE' });
+        await loadAll();
+      });
+    });
+  }
+
   async function loadAll() {
-    const [stats, leads, typologies, timeline, gallery, faq, site] = await Promise.all([
+    const [stats, leads, typologies, timeline, gallery, faq, site, lines] = await Promise.all([
       req('/api/admin/stats'),
       req('/api/admin/leads'),
       req('/api/content/typologies'),
@@ -91,11 +146,13 @@ export function initAdmin(): void {
       req('/api/content/gallery'),
       req('/api/content/faq'),
       req('/api/content/site'),
+      req('/api/content/lines'),
     ]);
     const statsEl = root.querySelector('[data-stats]');
-    if (statsEl) statsEl.textContent = `${stats.leads} leads · ${stats.gallery} visuels`;
+    if (statsEl) statsEl.textContent = `${stats.leads} leads · ${stats.gallery} visuels · ${stats.lines} lignes`;
     renderLeads(leads);
     renderStock(typologies);
+    renderLines(lines);
     renderChantier(timeline, site);
     renderGallery(gallery);
     renderFaq(faq);
@@ -117,16 +174,11 @@ export function initAdmin(): void {
           <td><a href="tel:${escapeHtml(r.phone)}">${escapeHtml(r.phone)}</a></td>
           <td>${escapeHtml(r.interest || '—')}<br><small>${escapeHtml(r.preferred_slot || '')}</small></td>
           <td>${escapeHtml(r.message)}</td>
-          <td><button class="admin-danger" data-del-lead="${r.id}">Supprimer</button></td>
+          <td><button class="admin-danger" data-del-lead data-id="${r.id}">Supprimer</button></td>
         </tr>`,
       )
       .join('')}</tbody></table>`;
-    el.querySelectorAll<HTMLButtonElement>('[data-del-lead]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        await req(`/api/admin/leads/${btn.dataset.delLead}`, { method: 'DELETE' });
-        await loadAll();
-      });
-    });
+    bindDelete(el, '[data-del-lead]', (id) => `/api/admin/leads/${id}`);
   }
 
   function renderStock(rows: Array<Record<string, string | number>>) {
@@ -135,18 +187,20 @@ export function initAdmin(): void {
     el.innerHTML = `<div class="admin-grid">${rows
       .map(
         (r) => `<form class="admin-card" data-typo-form data-id="${r.id}">
-          <strong>${escapeHtml(String(r.title_fr))}</strong>
+          <label>Slug<input name="slug" value="${escapeAttr(String(r.slug))}" /></label>
+          <label>Titre FR<input name="title_fr" value="${escapeAttr(String(r.title_fr))}" /></label>
+          <label>Titre AR<input name="title_ar" value="${escapeAttr(String(r.title_ar))}" /></label>
           <label>Prix FR<input name="price_fr" value="${escapeAttr(String(r.price_fr))}" /></label>
           <label>Prix AR<input name="price_ar" value="${escapeAttr(String(r.price_ar))}" /></label>
           <label>Surface<input name="surface" value="${escapeAttr(String(r.surface))}" /></label>
           <label>Restant<input name="remaining" type="number" value="${escapeAttr(String(r.remaining ?? 0))}" /></label>
           <label>Lien plan<input name="plan_url" value="${escapeAttr(String(r.plan_url || ''))}" /></label>
-          <input type="hidden" name="slug" value="${escapeAttr(String(r.slug))}" />
-          <input type="hidden" name="title_fr" value="${escapeAttr(String(r.title_fr))}" />
-          <input type="hidden" name="title_ar" value="${escapeAttr(String(r.title_ar))}" />
-          <label>Texte FR<textarea name="body_fr">${escapeHtml(String(r.body_fr))}</textarea></label>
-          <label>Texte AR<textarea name="body_ar">${escapeHtml(String(r.body_ar))}</textarea></label>
-          <button type="submit">Enregistrer</button>
+          <label class="admin-span">Texte FR<textarea name="body_fr">${escapeHtml(String(r.body_fr))}</textarea></label>
+          <label class="admin-span">Texte AR<textarea name="body_ar">${escapeHtml(String(r.body_ar))}</textarea></label>
+          <div class="admin-actions">
+            <button type="submit">Enregistrer</button>
+            <button type="button" class="admin-danger" data-del-typo data-id="${r.id}">Supprimer</button>
+          </div>
         </form>`,
       )
       .join('')}</div>`;
@@ -161,6 +215,52 @@ export function initAdmin(): void {
         await loadAll();
       });
     });
+    bindDelete(el, '[data-del-typo]', (id) => `/api/admin/typologies/${id}`);
+  }
+
+  function renderLines(rows: Array<Record<string, string | number>>) {
+    const el = root.querySelector('[data-lines]');
+    if (!el) return;
+    const labels: Record<string, string> = {
+      amenities: 'Équipements',
+      access: 'Emplacement',
+      aids: 'Aides',
+    };
+    const groups = ['amenities', 'access', 'aids'];
+    el.innerHTML = groups
+      .map((group) => {
+        const items = rows.filter((r) => r.group === group);
+        return `<div class="admin-grid">
+          <p class="admin-group-title">${labels[group] || group}</p>
+          ${items
+            .map(
+              (r) => `<form class="admin-card" data-line-form data-id="${r.id}">
+                <input type="hidden" name="group" value="${escapeAttr(String(r.group))}" />
+                <label>Ordre<input name="sort_order" type="number" value="${escapeAttr(String(r.sort_order))}" /></label>
+                <label class="admin-span">FR<input name="text_fr" value="${escapeAttr(String(r.text_fr))}" /></label>
+                <label class="admin-span">AR<input name="text_ar" value="${escapeAttr(String(r.text_ar))}" /></label>
+                <div class="admin-actions">
+                  <button type="submit">Enregistrer</button>
+                  <button type="button" class="admin-danger" data-del-line data-id="${r.id}">Supprimer</button>
+                </div>
+              </form>`,
+            )
+            .join('')}
+        </div>`;
+      })
+      .join('');
+    el.querySelectorAll<HTMLFormElement>('[data-line-form]').forEach((form) => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+        await req(`/api/admin/lines/${form.dataset.id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ ...data, sort_order: Number(data.sort_order || 0) }),
+        });
+        await loadAll();
+      });
+    });
+    bindDelete(el, '[data-del-line]', (id) => `/api/admin/lines/${id}`);
   }
 
   function renderChantier(steps: Array<Record<string, string | number>>, site: Array<{ key: string; value_fr: string; value_ar: string }>) {
@@ -178,12 +278,15 @@ export function initAdmin(): void {
       <div class="admin-grid" style="margin-top:1rem">${steps
         .map(
           (s) => `<form class="admin-card" data-step-form data-id="${s.id}">
-            <input type="hidden" name="sort_order" value="${s.sort_order}" />
+            <label>Ordre<input name="sort_order" type="number" value="${s.sort_order}" /></label>
             <label>Statut FR<input name="status_fr" value="${escapeAttr(String(s.status_fr))}" /></label>
             <label>Statut AR<input name="status_ar" value="${escapeAttr(String(s.status_ar))}" /></label>
             <label>Titre FR<input name="title_fr" value="${escapeAttr(String(s.title_fr))}" /></label>
             <label>Titre AR<input name="title_ar" value="${escapeAttr(String(s.title_ar))}" /></label>
-            <button type="submit">Enregistrer</button>
+            <div class="admin-actions">
+              <button type="submit">Enregistrer</button>
+              <button type="button" class="admin-danger" data-del-step data-id="${s.id}">Supprimer</button>
+            </div>
           </form>`,
         )
         .join('')}</div>`;
@@ -203,6 +306,7 @@ export function initAdmin(): void {
         await loadAll();
       });
     });
+    bindDelete(el, '[data-del-step]', (id) => `/api/admin/timeline/${id}`);
   }
 
   function renderGallery(rows: Array<Record<string, string | number>>) {
@@ -211,11 +315,14 @@ export function initAdmin(): void {
     el.innerHTML = `<div class="admin-grid">${rows
       .map(
         (r) => `<form class="admin-card" data-gal-form data-id="${r.id}">
-          <label>URL<input name="url" value="${escapeAttr(String(r.url))}" /></label>
+          <label class="admin-span">URL<input name="url" value="${escapeAttr(String(r.url))}" /></label>
           <label>Alt FR<input name="alt_fr" value="${escapeAttr(String(r.alt_fr))}" /></label>
           <label>Alt AR<input name="alt_ar" value="${escapeAttr(String(r.alt_ar))}" /></label>
-          <input type="hidden" name="sort_order" value="${r.sort_order}" />
-          <button type="submit">Enregistrer</button>
+          <label>Ordre<input name="sort_order" type="number" value="${r.sort_order}" /></label>
+          <div class="admin-actions">
+            <button type="submit">Enregistrer</button>
+            <button type="button" class="admin-danger" data-del-gal data-id="${r.id}">Supprimer</button>
+          </div>
         </form>`,
       )
       .join('')}</div>`;
@@ -227,6 +334,7 @@ export function initAdmin(): void {
         await loadAll();
       });
     });
+    bindDelete(el, '[data-del-gal]', (id) => `/api/admin/gallery/${id}`);
   }
 
   function renderFaq(rows: Array<Record<string, string | number>>) {
@@ -235,12 +343,15 @@ export function initAdmin(): void {
     el.innerHTML = `${rows
       .map(
         (r) => `<form class="admin-card" data-faq-form data-id="${r.id}" style="margin-bottom:1rem">
-          <input type="hidden" name="sort_order" value="${r.sort_order}" />
-          <label>Question FR<input name="question_fr" value="${escapeAttr(String(r.question_fr))}" /></label>
-          <label>Question AR<input name="question_ar" value="${escapeAttr(String(r.question_ar))}" /></label>
-          <label>Réponse FR<textarea name="answer_fr">${escapeHtml(String(r.answer_fr))}</textarea></label>
-          <label>Réponse AR<textarea name="answer_ar">${escapeHtml(String(r.answer_ar))}</textarea></label>
-          <button type="submit">Enregistrer</button>
+          <label>Ordre<input name="sort_order" type="number" value="${r.sort_order}" /></label>
+          <label class="admin-span">Question FR<input name="question_fr" value="${escapeAttr(String(r.question_fr))}" /></label>
+          <label class="admin-span">Question AR<input name="question_ar" value="${escapeAttr(String(r.question_ar))}" /></label>
+          <label class="admin-span">Réponse FR<textarea name="answer_fr">${escapeHtml(String(r.answer_fr))}</textarea></label>
+          <label class="admin-span">Réponse AR<textarea name="answer_ar">${escapeHtml(String(r.answer_ar))}</textarea></label>
+          <div class="admin-actions">
+            <button type="submit">Enregistrer</button>
+            <button type="button" class="admin-danger" data-del-faq data-id="${r.id}">Supprimer</button>
+          </div>
         </form>`,
       )
       .join('')}`;
@@ -252,6 +363,7 @@ export function initAdmin(): void {
         await loadAll();
       });
     });
+    bindDelete(el, '[data-del-faq]', (id) => `/api/admin/faq/${id}`);
   }
 
   function renderSite(rows: Array<{ key: string; value_fr: string; value_ar: string }>) {
@@ -263,7 +375,10 @@ export function initAdmin(): void {
           <strong>${escapeHtml(r.key)}</strong>
           <label>FR<input name="value_fr" value="${escapeAttr(r.value_fr)}" /></label>
           <label>AR<input name="value_ar" value="${escapeAttr(r.value_ar)}" /></label>
-          <button type="submit">Enregistrer</button>
+          <div class="admin-actions">
+            <button type="submit">Enregistrer</button>
+            <button type="button" class="admin-danger" data-del-site data-id="${escapeAttr(r.key)}">Supprimer</button>
+          </div>
         </form>`,
       )
       .join('')}</div>`;
@@ -275,6 +390,7 @@ export function initAdmin(): void {
         await loadAll();
       });
     });
+    bindDelete(el, '[data-del-site]', (id) => `/api/admin/site/${encodeURIComponent(id)}`);
   }
 
   boot();

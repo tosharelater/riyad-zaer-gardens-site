@@ -1,93 +1,139 @@
 :root {
   --foret: #002d2d;
-  --canopee: #0a3d35;
   --gold: #c8b568;
   --creme: #f7f2e8;
+  --ink: #1c2424;
+  --line: rgb(0 45 45 / 0.1);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--foret);
-  color: var(--creme);
+  background: var(--creme);
+  color: var(--ink);
   font-family: Poppins, system-ui, sans-serif;
 }
 
 .admin {
-  max-width: 1100px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 4rem;
+  padding: 2rem 1.15rem 4rem;
 }
 
 .admin-kicker {
   margin: 0;
   font-size: 0.68rem;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: #6b5c2e;
 }
 
 h1 {
-  margin: 0.4rem 0 0;
+  margin: 0.25rem 0 0;
   font-weight: 500;
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-size: 1.7rem;
 }
 
-.admin-lead {
-  color: rgb(247 242 232 / 0.7);
-  font-size: 0.92rem;
+.admin-lead,
+.admin-hint {
+  color: rgb(28 36 36 / 0.62);
+  font-size: 0.88rem;
+}
+
+.admin-hint {
+  margin: 0 0 1.25rem;
 }
 
 .admin-login,
 .admin-app {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 form,
 .admin-card {
   display: grid;
-  gap: 0.85rem;
-  padding: 1.25rem;
-  border: 1px solid rgb(247 242 232 / 0.12);
-  background: rgb(247 242 232 / 0.04);
+  gap: 0.7rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.admin-add {
+  margin-bottom: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  align-items: end;
+}
+
+.admin-add__title {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(28 36 36 / 0.5);
+}
+
+.admin-span {
+  grid-column: 1 / -1;
 }
 
 label {
   display: grid;
-  gap: 0.35rem;
-  font-size: 0.78rem;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: rgb(28 36 36 / 0.7);
 }
 
 input,
 textarea,
 select {
-  border: 1px solid rgb(247 242 232 / 0.2);
-  background: rgb(0 20 20 / 0.35);
-  color: var(--creme);
-  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  padding: 0.55rem 0.65rem;
   font: inherit;
+}
+
+textarea {
+  min-height: 4.5rem;
 }
 
 button {
   justify-self: start;
   border: 0;
-  background: var(--gold);
-  color: var(--foret);
-  padding: 0.65rem 1.1rem;
+  background: var(--foret);
+  color: var(--creme);
+  padding: 0.55rem 0.95rem;
   font: inherit;
-  font-weight: 600;
+  font-size: 0.85rem;
   cursor: pointer;
 }
 
+.admin-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 button[data-logout],
+.admin-top__meta a,
 .admin-danger {
   background: transparent;
-  color: var(--gold);
-  border: 1px solid rgb(200 181 104 / 0.4);
+  color: var(--foret);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.admin-danger {
+  color: #8a2a2a;
 }
 
 .admin-error {
-  color: #f3c1c1;
+  color: #8a2a2a;
   font-size: 0.85rem;
 }
 
@@ -99,23 +145,36 @@ button[data-logout],
   flex-wrap: wrap;
 }
 
+.admin-top__meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-top__meta p {
+  margin: 0 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: rgb(28 36 36 / 0.55);
+}
+
 .admin-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 1.75rem 0 1rem;
+  gap: 0.35rem;
+  margin: 1.5rem 0 1rem;
 }
 
 .admin-tabs button {
   background: transparent;
-  color: rgb(247 242 232 / 0.7);
-  border: 1px solid rgb(247 242 232 / 0.15);
+  color: rgb(28 36 36 / 0.7);
+  border: 1px solid var(--line);
 }
 
 .admin-tabs button.is-on {
-  background: var(--gold);
-  color: var(--foret);
-  border-color: var(--gold);
+  background: var(--foret);
+  color: var(--creme);
+  border-color: var(--foret);
 }
 
 .admin-panel {
@@ -128,20 +187,21 @@ button[data-logout],
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
+  background: #fff;
 }
 
 th,
 td {
   text-align: start;
-  padding: 0.7rem 0.5rem;
-  border-bottom: 1px solid rgb(247 242 232 / 0.1);
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid var(--line);
   vertical-align: top;
 }
 
 .admin-grid {
   display: grid;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 @media (min-width: 800px) {
@@ -150,6 +210,16 @@ td {
   }
 }
 
+.admin-group-title {
+  grid-column: 1 / -1;
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(28 36 36 / 0.45);
+}
+
 code {
-  color: var(--gold);
+  background: rgb(0 45 45 / 0.06);
+  padding: 0.1rem 0.35rem;
 }
