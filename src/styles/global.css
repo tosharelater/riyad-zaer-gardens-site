@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Audrey";
+  src: var(--fontRegular, url("/fonts/audrey/Audrey-Regular.otf")) format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Audrey";
+  src: var(--fontMedium, url("/fonts/audrey/Audrey-Medium.otf")) format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Audrey";
+  src: var(--fontBold, url("/fonts/audrey/Audrey-Bold.otf")) format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-foret: #002d2d;
+  --color-canopee: #0a3d35;
+  --color-gold: #c8b568;
+  --color-gold-soft: #d9c987;
+  --color-creme: #f7f2e8;
+  --font-display: "Audrey", "Poppins", serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --shadow-rzg: 0 18px 50px -24px rgb(0 45 45 / 0.35);
+  --shadow-rzg-lg: 0 28px 70px -30px rgb(0 45 45 / 0.45);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-creme text-foret font-sans antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  html[dir="rtl"] body {
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    @apply bg-gold/40 text-foret;
+  }
+}
+
+@layer components {
+  .container-rzg {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  .kicker {
+    @apply text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-gold;
+  }
+  .kicker--ink {
+    @apply text-canopee;
+  }
+  .kicker--light {
+    @apply text-gold-soft;
+  }
+
+  .gold-rule {
+    @apply h-px w-14 bg-gold/70;
+  }
+
+  .section {
+    @apply py-16 md:py-24;
+  }
+  .section--tight {
+    @apply py-12 md:py-16;
+  }
+  .section--dark {
+    @apply bg-foret text-creme;
+  }
+  .section--canopee {
+    @apply bg-canopee text-creme;
+  }
+  .section--soft {
+    @apply bg-white/60;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition duration-300;
+  }
+  .btn-solid {
+    @apply bg-gold text-foret shadow-sm hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-md;
+  }
+  .btn-ghost {
+    @apply border border-creme/35 text-creme backdrop-blur-sm hover:border-creme/60 hover:bg-creme/10;
+  }
+  .btn-ghost-dark {
+    @apply border border-foret/15 text-foret hover:border-foret/30 hover:bg-foret/5;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+
+  .card {
+    @apply rounded-2xl border border-foret/8 bg-white p-6 shadow-sm transition duration-300;
+  }
+  .card-hover {
+    @apply hover:-translate-y-1 hover:border-gold/25 hover:shadow-[var(--shadow-rzg)];
+  }
+  .card-dark {
+    @apply rounded-2xl border border-creme/10 bg-foret/40 p-6 backdrop-blur-sm;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-foret/12 bg-white px-4 py-3 text-sm outline-none transition focus:border-gold focus:ring-4 focus:ring-gold/15;
+  }
+
+  .prose-rzg {
+    @apply text-foret/75 leading-relaxed;
+  }
+
+  .stat-pill {
+    @apply rounded-2xl border border-creme/10 bg-creme/5 px-5 py-4 backdrop-blur-sm;
+  }
+
+  .nav-link {
+    @apply relative text-sm text-foret/80 transition hover:text-gold;
+  }
+  .nav-link--active {
+    @apply font-medium text-gold;
+  }
+  .nav-link--active::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 h-px w-full bg-gold/70;
+  }
+
+  .reveal {
+    @apply translate-y-6 opacity-0 transition duration-700 ease-out;
+  }
+  .reveal.is-visible {
+    @apply translate-y-0 opacity-100;
+  }
+
+  .gallery-tile {
+    @apply relative overflow-hidden rounded-2xl bg-canopee/10;
+  }
+  .gallery-tile img {
+    @apply aspect-[4/3] w-full object-cover transition duration-700;
+  }
+  .gallery-tile:hover img {
+    transform: scale(1.05);
+  }
+  .gallery-tile::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0 bg-gradient-to-t from-foret/50 via-transparent to-transparent opacity-0 transition duration-500;
+  }
+  .gallery-tile:hover::after {
+    opacity: 1;
+  }
+
+  .timeline-dot {
+    @apply relative pl-8 before:absolute before:left-0 before:top-2 before:h-3 before:w-3 before:rounded-full before:bg-gold before:shadow-[0_0_0_4px_rgba(200,181,104,0.25)];
+  }
+  .timeline-dot--done::before {
+    @apply bg-gold;
+  }
+  .timeline-dot--active::before {
+    @apply animate-pulse bg-gold-soft;
+  }
+  .timeline-dot--pending::before {
+    @apply bg-foret/20 shadow-none;
+  }
+}

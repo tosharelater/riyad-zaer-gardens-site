@@ -1,0 +1,38 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site } from '../data/site';
+import { accessPoints } from '../data/home-content';
+import { withBase } from '../lib/base';
+---
+
+<PageLayout title="Emplacement" current="location">
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split bg-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Emplacement</p>
+        <p class="fusion-giant mt-8 reveal-fusion reveal-fusion--left">25'</p>
+        <p class="mt-4 text-xl reveal-fusion">
+          <span data-bilingual-fr>minutes de Rabat</span>
+          <span data-bilingual-ar hidden>دقيقة من الرباط</span>
+        </p>
+        <h1 class="fusion-h2 mt-8 reveal-fusion">
+          <span data-bilingual-fr>Entre ville et nature, à Aïn Aouda</span>
+          <span data-bilingual-ar hidden>بين المدينة والطبيعة، في عين عودة</span>
+        </h1>
+        <p class="fusion-lead text-foret/70 reveal-fusion">{site.address}</p>
+        <ul class="fusion-list mt-10 border-foret/10 text-foret">
+          {accessPoints.map((p) => (
+            <li class="border-foret/10 reveal-fusion">
+              <span data-bilingual-fr>{p.fr}</span>
+              <span data-bilingual-ar hidden>{p.ar}</span>
+            </li>
+          ))}
+        </ul>
+        <a href={withBase('/contact/')} class="btn btn-solid mt-10 reveal-fusion" data-i18n="cta_contact">Nous contacter</a>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-11.jpg')} alt="" />
+      </div>
+    </section>
+  </div>
+</PageLayout>

@@ -1,0 +1,71 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site, faq } from '../data/site';
+import { aidSteps, visitInfo } from '../data/home-content';
+---
+
+<PageLayout title="Contact" current="contact">
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split fusion-split--short">
+      <div class="fusion-pane bg-foret text-creme" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Contact</p>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>{visitInfo.ctaFr}</span>
+          <span data-bilingual-ar hidden>{visitInfo.ctaAr}</span>
+        </h1>
+        <p class="fusion-lead text-creme/75 reveal-fusion">
+          {site.phone} · <span data-bilingual-fr>{visitInfo.hoursFr}</span><span data-bilingual-ar hidden>{visitInfo.hoursAr}</span>
+        </p>
+        <p class="mt-6 max-w-md text-sm text-creme/65 reveal-fusion">{site.address}</p>
+        <a href={site.whatsapp} class="btn btn-solid mt-10 reveal-fusion" target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp</a>
+      </div>
+      <div class="fusion-pane bg-creme" data-reveal-group>
+        <div class="reveal-fusion">
+          <ContactForm />
+        </div>
+      </div>
+    </section>
+
+    <section class="fusion-split fusion-split--short">
+      <div class="fusion-pane bg-canopee text-creme" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Aides</p>
+        <h2 class="fusion-h2 mt-6 text-creme reveal-fusion">Daam Sakane</h2>
+        <p class="fusion-lead text-creme/80 reveal-fusion">
+          <span data-bilingual-fr>Jusqu'à {site.aidAmount} — indicatif {site.priceWithAid} avec aide.</span>
+          <span data-bilingual-ar hidden>حتى {site.aidAmount} — تقريبي {site.priceWithAid} مع الدعم.</span>
+        </p>
+        <ol class="fusion-steps mt-10">
+          {aidSteps.map((step) => (
+            <li class="reveal-fusion">
+              <span>
+                <span data-bilingual-fr>{step.fr}</span>
+                <span data-bilingual-ar hidden>{step.ar}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="fusion-pane bg-white" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">FAQ</p>
+        <div class="fusion-faq mt-8 divide-y divide-foret/10 border-y border-foret/10 reveal-fusion">
+          {faq.map((item) => (
+            <details class="py-5">
+              <summary class="flex cursor-pointer list-none justify-between gap-4 font-medium">
+                <span>
+                  <span data-bilingual-fr>{item.qFr}</span>
+                  <span data-bilingual-ar hidden>{item.qAr}</span>
+                </span>
+                <span class="fusion-faq-plus text-gold">+</span>
+              </summary>
+              <p class="mt-4 text-sm leading-relaxed text-foret/70">
+                <span data-bilingual-fr>{item.aFr}</span>
+                <span data-bilingual-ar hidden>{item.aAr}</span>
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</PageLayout>

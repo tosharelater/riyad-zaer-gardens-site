@@ -1,0 +1,44 @@
+---
+import { site } from '../data/site';
+import { navLinks } from '../data/nav';
+import { withBase } from '../lib/base';
+---
+
+<footer class="section--dark section !pb-8 !pt-16">
+  <div class="container-rzg">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div class="lg:col-span-2">
+        <img src={withBase('/logo.png')} alt={site.name} width="180" height="72" class="mb-5 h-14 w-auto" />
+        <p class="max-w-md text-sm leading-relaxed text-creme/70">
+          <span data-bilingual-fr>Nouveau pôle urbain à Aïn Aouda — appartements F3 & F4 et fonds de commerce, livraison {site.delivery}.</span>
+          <span data-bilingual-ar hidden>قطب حضري جديد في عين عودة — شقق F3 و F4 ومحلات تجارية، التسليم {site.delivery}.</span>
+        </p>
+        <p class="mt-4 text-xs uppercase tracking-[0.2em] text-gold/80" data-i18n="by_manoussa">by La Manoussa</p>
+      </div>
+
+      <div>
+        <p class="kicker kicker--light mb-4" data-i18n="footer_nav">Navigation</p>
+        <ul class="space-y-2 text-sm text-creme/80">
+          {navLinks.map((l) => (
+            <li><a href={l.href} class="transition hover:text-gold" data-i18n={l.key}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p class="kicker kicker--light mb-4" data-i18n="footer_contact">Contact</p>
+        <div class="space-y-2 text-sm text-creme/80">
+          <p data-i18n="footer_address">{site.address}</p>
+          <p data-i18n="footer_hours">Lun – Sam : 9h – 18h</p>
+          <p><a href={`tel:${site.phoneTel}`} class="font-medium text-gold hover:underline">{site.phone}</a></p>
+          <a href={site.whatsapp} class="inline-flex items-center gap-2 text-creme/90 transition hover:text-gold" target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-creme/10 pt-6 text-xs text-creme/45 sm:flex-row">
+      <p>© {new Date().getFullYear()} {site.name}</p>
+      <a href={withBase('/design-system/')} class="hover:text-creme/70">Design system</a>
+    </div>
+  </div>
+</footer>

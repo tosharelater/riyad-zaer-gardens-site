@@ -1,0 +1,14 @@
+---
+import { site } from '../data/site';
+import { withBase } from '../lib/base';
+---
+
+<div class="splash" data-splash role="dialog" aria-label={site.name}>
+  <div class="splash__sheen" aria-hidden="true">
+    <span class="splash__wash"></span>
+    <span class="splash__beam"></span>
+  </div>
+  <div class="splash__mark">
+    <img class="splash__logo" src={withBase('/logo.png')} alt={site.name} width="280" height="112" />
+  </div>
+</div>

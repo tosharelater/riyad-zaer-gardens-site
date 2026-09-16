@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import '../styles/fusion.css';
+import '../styles/splash.css';
+import Splash from '../components/Splash.astro';
+import { withBase } from '../lib/base';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description = 'Riyad Zaer Gardens — Nouveau pôle urbain à Aïn Aouda / Rabat.', noindex = false } = Astro.props;
+const fullTitle = title.includes('Riyad Zaer') ? title : `${title} — Riyad Zaer Gardens`;
+const assetBase = import.meta.env.BASE_URL || '/';
+---
+
+<!doctype html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#002D2D" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <style is:global define:vars={{
+      fontRegular: `url("${assetBase}fonts/audrey/Audrey-Regular.otf")`,
+      fontMedium: `url("${assetBase}fonts/audrey/Audrey-Medium.otf")`,
+      fontBold: `url("${assetBase}fonts/audrey/Audrey-Bold.otf")`,
+    }}></style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <title>{fullTitle}</title>
+    <script is:inline define:vars={{ assetBase }}>
+      (function () {
+        try {
+          var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var wipe = sessionStorage.getItem('rzg-wipe') === '1';
+          var path = (location.pathname || '/').replace(/\/+$/, '') || '/';
+          var base = (assetBase || '/').replace(/\/+$/, '') || '/';
+          var stripped = path.replace(/\/index\.html$/, '') || '/';
+          var home = stripped === base;
+          if (reduced || wipe || !home) {
+            document.documentElement.classList.add('splash-done');
+          } else {
+            document.documentElement.classList.add('is-splashing');
+          }
+          if (wipe && !reduced) {
+            document.documentElement.classList.add('is-wiping');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('splash-done');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <Splash />
+    <div class="page-wipe" data-page-wipe aria-hidden="true"></div>
+    <slot />
+    <script>
+      import { initLangToggle } from '../scripts/i18n';
+      import { initUi } from '../scripts/ui';
+      import { initSplash } from '../scripts/splash';
+      import { initPageWipe } from '../scripts/page-wipe';
+      import { initScrollFusion } from '../scripts/scroll-fusion';
+      initLangToggle();
+      initUi();
+      initPageWipe();
+      initSplash().then(() => initScrollFusion());
+    </script>
+  </body>
+</html>

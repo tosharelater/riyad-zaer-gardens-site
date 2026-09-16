@@ -1,0 +1,66 @@
+---
+import { site } from '../data/site';
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
+---
+
+<form class="grid gap-5 reveal" data-contact-form data-api={apiUrl}>
+  <div>
+    <p class="kicker kicker--ink mb-2" data-i18n="form_title">Formulaire</p>
+    <h2 class="font-display text-2xl">
+      <span data-bilingual-fr>Envoyez-nous un message</span>
+      <span data-bilingual-ar hidden>أرسلوا لنا رسالة</span>
+    </h2>
+  </div>
+
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_name">Nom complet</span>
+    <input class="input" type="text" name="name" required autocomplete="name" />
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_phone">Téléphone</span>
+    <input class="input" type="tel" name="phone" required autocomplete="tel" />
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_email">Email</span>
+    <input class="input" type="email" name="email" autocomplete="email" />
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_message">Message</span>
+    <textarea class="input min-h-32 resize-y" name="message" required></textarea>
+  </label>
+
+  <div class="flex flex-wrap gap-3 pt-1">
+    <button type="submit" class="btn btn-solid" data-i18n="form_send">Envoyer</button>
+    <a class="btn btn-ghost-dark" href={site.whatsapp} target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp</a>
+  </div>
+
+  <p class="hidden rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800" data-form-success data-i18n="form_success"></p>
+  <p class="hidden rounded-xl bg-red-50 px-4 py-3 text-sm text-red-800" data-form-error data-i18n="form_error"></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const api = form.dataset.api ?? '';
+      const success = form.querySelector('[data-form-success]');
+      const error = form.querySelector('[data-form-error]');
+      success?.classList.add('hidden');
+      error?.classList.add('hidden');
+
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const res = await fetch(`${api}/api/leads`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('fail');
+        form.reset();
+        success?.classList.remove('hidden');
+      } catch {
+        error?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

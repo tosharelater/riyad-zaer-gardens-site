@@ -1,0 +1,48 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const colors = [
+  { name: 'Vert Forêt', hex: '#002D2D', cls: 'bg-foret text-creme' },
+  { name: 'Vert Canopée', hex: '#0A3D35', cls: 'bg-canopee text-creme' },
+  { name: 'Or Champagne', hex: '#C8B568', cls: 'bg-gold text-foret' },
+  { name: 'Or Pâle', hex: '#D9C987', cls: 'bg-gold-soft text-foret' },
+  { name: 'Crème Ivoire', hex: '#F7F2E8', cls: 'bg-creme text-foret border border-foret/10' },
+];
+---
+
+<PageLayout title="Design System">
+  <section class="section">
+    <div class="container-rzg">
+      <p class="kicker kicker--ink">Riyad Zaer Gardens</p>
+      <h1 class="font-display text-4xl">Design System</h1>
+      <p class="mt-2 prose-rzg">Audrey (display) + Poppins (UI) · 5 couleurs brand only.</p>
+
+      <div class="mt-10 grid gap-8">
+        <div class="card">
+          <h2 class="font-display text-2xl mb-4">Couleurs</h2>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {colors.map((c) => (
+              <div>
+                <div class={`h-20 rounded-lg ${c.cls}`}></div>
+                <p class="mt-2 text-sm font-medium">{c.name}</p>
+                <p class="text-xs text-foret/60">{c.hex}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="font-display text-2xl mb-4">Typographie</h2>
+          <p class="font-display text-4xl">Audrey — Display</p>
+          <p class="font-sans text-base mt-4">Poppins — Body & UI</p>
+        </div>
+
+        <div class="card flex flex-wrap gap-3">
+          <button type="button" class="btn btn-solid">Primary</button>
+          <button type="button" class="btn btn-ghost-dark">Secondary</button>
+          <input class="input max-w-xs" placeholder="Input" />
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

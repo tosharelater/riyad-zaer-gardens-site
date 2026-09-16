@@ -1,0 +1,175 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site, typologies, amenities, timeline } from '../data/site';
+import { poleUrban, aidSteps, chantierDetail, developer } from '../data/home-content';
+import { withBase } from '../lib/base';
+
+const typoImages = [withBase('/gallery/render-1.jpg'), withBase('/gallery/render-6.jpg'), withBase('/gallery/render-8.jpg')];
+const progressPct = 55;
+---
+
+<PageLayout title="Le projet" current="projet">
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split bg-foret text-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Le projet</p>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>{poleUrban.titleFr}</span>
+          <span data-bilingual-ar hidden>{poleUrban.titleAr}</span>
+        </h1>
+        <p class="fusion-lead text-creme/78 reveal-fusion">
+          <span data-bilingual-fr>{poleUrban.bodyFr}</span>
+          <span data-bilingual-ar hidden>{poleUrban.bodyAr}</span>
+        </p>
+        <dl class="fusion-nums reveal-fusion">
+          <div>
+            <dt><span data-count-to={site.apartments}>0</span></dt>
+            <dd data-i18n="stat_apt">appartements</dd>
+          </div>
+          <div>
+            <dt><span data-count-to={site.commercial}>0</span></dt>
+            <dd data-i18n="stat_com">commerces</dd>
+          </div>
+          <div>
+            <dt>9</dt>
+            <dd>
+              <span data-bilingual-fr>immeubles</span>
+              <span data-bilingual-ar hidden>عمارات</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-4.jpg')} alt="" />
+      </div>
+    </section>
+
+    <section class="bg-white">
+      <div class="mx-auto max-w-7xl px-4 pt-16 sm:px-6 md:pt-24" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Typologies</p>
+        <h2 class="fusion-h2 mt-6 reveal-fusion">F3 · F4 · Commerce</h2>
+      </div>
+      <div class="fusion-row mt-12">
+        {typologies.map((t, i) => (
+          <article data-row-reveal>
+            <div class="fusion-row__img">
+              <img src={typoImages[i]} alt="" loading="lazy" />
+            </div>
+            <div class="fusion-row__copy">
+              <p class="text-[0.65rem] uppercase tracking-[0.2em] text-gold">{t.surface}</p>
+              <h3 class="font-display mt-3 text-4xl text-canopee">
+                <span data-bilingual-fr>{t.titleFr}</span>
+                <span data-bilingual-ar hidden>{t.titleAr}</span>
+              </h3>
+              <p class="mt-4 max-w-sm text-sm leading-relaxed text-foret/70">
+                <span data-bilingual-fr>{t.bodyFr}</span>
+                <span data-bilingual-ar hidden>{t.bodyAr}</span>
+              </p>
+              <p class="mt-6 font-medium text-canopee">
+                <span data-bilingual-fr>{t.priceFr}</span>
+                <span data-bilingual-ar hidden>{t.priceAr}</span>
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="fusion-split fusion-split--short">
+      <div class="fusion-pane bg-creme" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Équipements</p>
+        <h2 class="fusion-h2 mt-6 reveal-fusion">
+          <span data-bilingual-fr>Confort au quotidien</span>
+          <span data-bilingual-ar hidden>راحة يومية</span>
+        </h2>
+        <ul class="fusion-list mt-10 border-foret/10 text-foret">
+          {amenities.map((a) => (
+            <li class="border-foret/10 reveal-fusion">
+              <span data-bilingual-fr>{a.fr}</span>
+              <span data-bilingual-ar hidden>{a.ar}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="fusion-pane bg-canopee text-creme" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Aides</p>
+        <h2 class="fusion-h2 mt-6 text-creme reveal-fusion">Daam Sakane</h2>
+        <p class="fusion-lead text-creme/80 reveal-fusion">
+          <span data-bilingual-fr>Jusqu'à {site.aidAmount} — indicatif {site.priceWithAid} avec aide.</span>
+          <span data-bilingual-ar hidden>حتى {site.aidAmount} — تقريبي {site.priceWithAid} مع الدعم.</span>
+        </p>
+        <ol class="fusion-steps mt-10">
+          {aidSteps.map((step) => (
+            <li class="reveal-fusion">
+              <span>
+                <span data-bilingual-fr>{step.fr}</span>
+                <span data-bilingual-ar hidden>{step.ar}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        <a href={withBase('/contact/')} class="btn btn-solid mt-10 reveal-fusion" data-i18n="cta_contact">Nous contacter</a>
+      </div>
+    </section>
+
+    <section class="fusion-band bg-foret text-creme">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Chantier</p>
+        <h2 class="fusion-h2 mt-6 reveal-fusion">
+          <span data-bilingual-fr>{chantierDetail.phaseFr}</span>
+          <span data-bilingual-ar hidden>{chantierDetail.phaseAr}</span>
+        </h2>
+        <p class="fusion-lead text-creme/75 reveal-fusion">
+          <span data-bilingual-fr>{chantierDetail.noteFr}</span>
+          <span data-bilingual-ar hidden>{chantierDetail.noteAr}</span>
+        </p>
+        <div class="mt-12 reveal-fusion">
+          <div class="flex justify-between text-[0.65rem] uppercase tracking-[0.18em] text-creme/50">
+            <span>Livraison {site.delivery}</span>
+            <span>{progressPct}%</span>
+          </div>
+          <div class="fusion-track mt-3" data-fill-track style={`--fill:${progressPct}%`}><span></span></div>
+        </div>
+        <ol class="fusion-phases reveal-fusion" data-phase-track>
+          {timeline.map((step, i) => (
+            <li class:list={[{ 'is-now': i === 2 }]}>
+              <p class="text-[0.6rem] uppercase tracking-wider text-gold-soft">
+                <span data-bilingual-fr>{step.statusFr}</span>
+                <span data-bilingual-ar hidden>{step.statusAr}</span>
+              </p>
+              <p class="font-display mt-2 text-sm">
+                <span data-bilingual-fr>{step.titleFr}</span>
+                <span data-bilingual-ar hidden>{step.titleAr}</span>
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="fusion-split fusion-split--short">
+      <div class="fusion-pane bg-white" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Promoteur</p>
+        <h2 class="fusion-h2 mt-6 reveal-fusion">{developer.name}</h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>{developer.bodyFr}</span>
+          <span data-bilingual-ar hidden>{developer.bodyAr}</span>
+        </p>
+        <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-foret/10 pt-8 reveal-fusion">
+          {developer.stats.map((s) => (
+            <div>
+              <dt class="font-display text-3xl text-canopee">{s.value}</dt>
+              <dd class="mt-2 text-[0.62rem] uppercase tracking-[0.14em] text-foret/50">
+                <span data-bilingual-fr>{s.labelFr}</span>
+                <span data-bilingual-ar hidden>{s.labelAr}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-7.jpg')} alt="" loading="lazy" />
+      </div>
+    </section>
+  </div>
+</PageLayout>
