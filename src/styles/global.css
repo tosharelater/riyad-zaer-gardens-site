@@ -28,8 +28,8 @@
   --color-gold: #c8b568;
   --color-gold-soft: #d9c987;
   --color-creme: #f7f2e8;
-  --font-display: "Audrey", "Poppins", serif;
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Audrey", "Poppins";
+  --font-sans: "Poppins";
   --shadow-rzg: 0 18px 50px -24px rgb(0 45 45 / 0.35);
   --shadow-rzg-lg: 0 28px 70px -30px rgb(0 45 45 / 0.45);
 }

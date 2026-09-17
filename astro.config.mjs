@@ -28,6 +28,10 @@ export default defineConfig({
     '/blog/': '/',
     '/design-system': '/',
     '/design-system/': '/',
+    '/staging': '/',
+    '/staging/': '/',
+    '/staging-2': '/',
+    '/staging-2/': '/',
   },
   vite: {
     plugins: [tailwindcss()]

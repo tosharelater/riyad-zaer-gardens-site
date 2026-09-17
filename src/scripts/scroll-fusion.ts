@@ -55,11 +55,11 @@ function initScrollProgress(): void {
 }
 
 function initFusionReveal(): void {
-  const groups = document.querySelectorAll<HTMLElement>('[data-reveal-group]');
-  if (!groups.length) return;
+  const items = [...document.querySelectorAll<HTMLElement>('.reveal-fusion')];
+  if (!items.length) return;
 
   if (prefersReducedMotion()) {
-    groups.forEach((g) => g.querySelectorAll('.reveal-fusion').forEach((el) => el.classList.add('is-visible')));
+    items.forEach((el) => el.classList.add('is-visible'));
     return;
   }
 
@@ -67,18 +67,22 @@ function initFusionReveal(): void {
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        const group = entry.target as HTMLElement;
-        group.querySelectorAll<HTMLElement>('.reveal-fusion').forEach((el, i) => {
-          el.style.transitionDelay = `${i * 90}ms`;
-          el.classList.add('is-visible');
-        });
-        observer.unobserve(group);
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.16, rootMargin: '0px 0px -8% 0px' },
+    { threshold: 0.08, rootMargin: '0px 0px -10% 0px' },
   );
 
-  groups.forEach((g) => observer.observe(g));
+  items.forEach((el) => {
+    const group = el.closest('[data-reveal-group]');
+    const siblings = group ? [...group.querySelectorAll('.reveal-fusion')] : [el];
+    const i = Math.max(0, siblings.indexOf(el));
+    const isCopy = el.matches('p, li, details, .fusion-stat, .fusion-lead');
+    const step = isCopy ? 95 : 75;
+    el.style.setProperty('--reveal-delay', `${Math.min(i, 12) * step}ms`);
+    observer.observe(el);
+  });
 }
 
 function initCounterReveal(): void {

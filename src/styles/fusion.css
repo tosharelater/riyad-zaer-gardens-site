@@ -472,15 +472,6 @@ html[dir="rtl"] .fusion-hero__veil {
   justify-content: center;
   padding: clamp(1.75rem, 4vw, 3rem);
   border-bottom: 1px solid rgb(0 45 45 / 0.1);
-  transform: translateY(12px);
-  opacity: 0;
-  transition:
-    transform 0.8s var(--ease),
-    opacity 0.8s var(--ease);
-}
-.fusion-row article.is-in .fusion-row__copy {
-  transform: none;
-  opacity: 1;
 }
 @media (min-width: 900px) {
   .fusion-row__copy {
@@ -528,20 +519,6 @@ html[dir="rtl"] .fusion-hero__veil {
 .fusion-list--soft,
 .fusion-list--soft li {
   border-color: rgb(0 45 45 / 0.06);
-}
-
-.staging-flag {
-  background: #c8b568;
-  color: #002d2d;
-  text-align: center;
-  padding: 0.55rem 1rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.staging-flag a {
-  color: inherit;
-  font-weight: 600;
 }
 
 .typo-parallax {
@@ -877,41 +854,83 @@ html[dir="rtl"] .fusion-hero__veil {
 .fusion-faq details[open] .fusion-faq-plus {
   transform: rotate(45deg);
 }
-.fusion-faq details[open] p {
-  animation: fusion-fade 0.45s var(--ease);
+.fusion-faq details p {
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  transform: translate3d(0, 0.7rem, 0);
 }
-
-@keyframes fusion-fade {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.fusion-faq details[open] p {
+  animation: fusion-text-wipe 0.9s var(--ease) forwards;
 }
 
 .reveal-fusion {
   opacity: 0;
-  transform: translateY(1.1rem);
+  transform: translate3d(0, 1.75rem, 0);
+  filter: none;
   transition:
-    opacity 0.9s var(--ease),
-    transform 0.9s var(--ease);
+    opacity 1.05s var(--ease) var(--reveal-delay, 0ms),
+    transform 1.05s var(--ease) var(--reveal-delay, 0ms),
+    letter-spacing 1.15s var(--ease) var(--reveal-delay, 0ms),
+    clip-path 1.2s var(--ease) var(--reveal-delay, 0ms);
 }
 .reveal-fusion.is-visible {
   opacity: 1;
+  filter: none;
   transform: none;
+  clip-path: inset(0);
 }
 .reveal-fusion--left {
-  transform: translateX(-1.25rem);
+  transform: translate3d(-1.4rem, 0.4rem, 0);
 }
 .reveal-fusion--right {
-  transform: translateX(1.25rem);
+  transform: translate3d(1.4rem, 0.4rem, 0);
 }
 .reveal-fusion--left.is-visible,
 .reveal-fusion--right.is-visible {
   transform: none;
+}
+.fusion-kicker.reveal-fusion {
+  letter-spacing: 0.48em;
+  transform: translate3d(0, 0.9rem, 0);
+}
+.fusion-kicker.reveal-fusion.is-visible {
+  letter-spacing: 0.28em;
+}
+.fusion-lead.reveal-fusion,
+p.reveal-fusion:not(.fusion-kicker):not(.fusion-giant):not(.typo-kicker-bar) {
+  transform: translate3d(0, 1.15rem, 0);
+}
+.fusion-lead.reveal-fusion.is-visible,
+p.reveal-fusion:not(.fusion-kicker):not(.fusion-giant):not(.typo-kicker-bar).is-visible {
+  animation: fusion-text-wipe 1.15s var(--ease) var(--reveal-delay, 0ms) both;
+}
+@keyframes fusion-text-wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+    opacity: 1;
+    transform: translate3d(0, 1.05rem, 0);
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 1;
+    transform: none;
+  }
+}
+.fusion-list li.reveal-fusion,
+.fusion-steps li.reveal-fusion,
+.home-phase-line li.reveal-fusion {
+  transform: translate3d(-0.9rem, 0.7rem, 0);
+}
+html[dir="rtl"] .fusion-list li.reveal-fusion,
+html[dir="rtl"] .fusion-steps li.reveal-fusion,
+html[dir="rtl"] .home-phase-line li.reveal-fusion {
+  transform: translate3d(0.9rem, 0.7rem, 0);
+}
+.fusion-faq details.reveal-fusion,
+.fusion-proof-cell.reveal-fusion,
+.fusion-nums > .reveal-fusion,
+.fusion-stat.reveal-fusion {
+  transform: translate3d(0, 1.1rem, 0);
 }
 
 .fusion-page .btn {
@@ -945,6 +964,7 @@ html[dir="rtl"] .fusion-hero__veil {
     animation: none !important;
     transition: none !important;
     filter: none !important;
+    clip-path: none !important;
     width: auto;
   }
   .fusion-track > span {

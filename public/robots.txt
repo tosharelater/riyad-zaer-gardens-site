@@ -1,4 +1,2 @@
 User-agent: *
 Disallow: /admin/
-Disallow: /staging/
-Disallow: /staging-2/

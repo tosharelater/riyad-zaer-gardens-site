@@ -22,7 +22,7 @@ const amenityList = [...amenities, ...moreAmenities];
 ---
 
 <PageLayout title="Accueil" current="home">
-  <div class="fusion-page" data-fusion-page data-fx-lab>
+  <div class="fusion-page" data-fusion-page>
     <div class="fusion-progress" data-scroll-progress aria-hidden="true"></div>
 
     <section class="fusion-hero fusion-hero--ken text-creme">
@@ -40,16 +40,16 @@ const amenityList = [...amenities, ...moreAmenities];
           <span data-bilingual-fr>120 appartements F3 & F4 et 49 fonds de commerce à Aïn Aouda — livraison {site.delivery}.</span>
           <span data-bilingual-ar hidden>120 شقة F3 و F4 و 49 محلاً في عين عودة — التسليم {site.delivery}.</span>
         </p>
-        <dl class="fusion-nums reveal-fusion">
-          <div>
+        <dl class="fusion-nums">
+          <div class="reveal-fusion">
             <dt><span data-count-to={site.apartments}>0</span></dt>
             <dd data-i18n="stat_apt">appartements</dd>
           </div>
-          <div>
+          <div class="reveal-fusion">
             <dt><span data-count-to={site.commercial}>0</span></dt>
             <dd data-i18n="stat_com">commerces</dd>
           </div>
-          <div>
+          <div class="reveal-fusion">
             <dt><span data-count-to={25}>0</span>'</dt>
             <dd>
               <span data-bilingual-fr>de Rabat</span>
@@ -114,9 +114,9 @@ const amenityList = [...amenities, ...moreAmenities];
       </div>
       <div class="typo-stack">
         <div class="typo-panel typo-panel--title" style="z-index:1">
-          <div class="typo-title-inner">
-            <p class="typo-kicker-bar">02 — Typologies</p>
-            <h2 class="fusion-h2">F3 · F4 · Commerce</h2>
+          <div class="typo-title-inner" data-reveal-group>
+            <p class="typo-kicker-bar reveal-fusion">02 — Typologies</p>
+            <h2 class="fusion-h2 reveal-fusion">F3 · F4 · Commerce</h2>
           </div>
         </div>
         {typologies.map((t, i) => (
@@ -128,21 +128,21 @@ const amenityList = [...amenities, ...moreAmenities];
             <div class="typo-panel__media">
               <img src={typoImages[i]} alt="" loading={i === 0 ? 'eager' : 'lazy'} />
             </div>
-            <div class="typo-panel__copy">
-              <p class="text-[0.65rem] uppercase tracking-[0.2em] text-gold">{t.surface}</p>
-              <h3 class="font-display mt-4 text-5xl text-canopee md:text-6xl">
+            <div class="typo-panel__copy" data-reveal-group>
+              <p class="text-[0.65rem] uppercase tracking-[0.2em] text-gold reveal-fusion">{t.surface}</p>
+              <h3 class="font-display mt-4 text-5xl text-canopee md:text-6xl reveal-fusion">
                 <span data-bilingual-fr>{t.titleFr}</span>
                 <span data-bilingual-ar hidden>{t.titleAr}</span>
               </h3>
-              <p class="mt-6 max-w-md text-base leading-relaxed text-foret/70">
+              <p class="mt-6 max-w-md text-base leading-relaxed text-foret/70 reveal-fusion">
                 <span data-bilingual-fr>{t.bodyFr}</span>
                 <span data-bilingual-ar hidden>{t.bodyAr}</span>
               </p>
-              <p class="mt-8 text-lg font-medium text-canopee">
+              <p class="mt-8 text-lg font-medium text-canopee reveal-fusion">
                 <span data-bilingual-fr>{t.priceFr}</span>
                 <span data-bilingual-ar hidden>{t.priceAr}</span>
               </p>
-              <p class="mt-3 text-sm text-foret/55">
+              <p class="mt-3 text-sm text-foret/55 reveal-fusion">
                 <span data-bilingual-fr>{t.remaining} lots restants</span>
                 <span data-bilingual-ar hidden>{t.remaining} وحدات متبقية</span>
               </p>
@@ -210,9 +210,9 @@ const amenityList = [...amenities, ...moreAmenities];
           </div>
           <div class="fusion-track mt-3" data-fill-track style={`--fill:${progressPct}%`}><span></span></div>
         </div>
-        <ul class="home-phase-line reveal-fusion">
+        <ul class="home-phase-line">
           {timeline.map((step, i) => (
-            <li class:list={[{ 'is-now': i === 2 }]}>
+            <li class:list={['reveal-fusion', { 'is-now': i === 2 }]}>
               <span data-bilingual-fr>{step.titleFr}</span>
               <span data-bilingual-ar hidden>{step.titleAr}</span>
             </li>
@@ -285,9 +285,9 @@ const amenityList = [...amenities, ...moreAmenities];
           <span data-bilingual-fr>{developer.bodyFr}</span>
           <span data-bilingual-ar hidden>{developer.bodyAr}</span>
         </p>
-        <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-foret/10 pt-8 reveal-fusion">
+        <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-foret/10 pt-8">
           {developer.stats.map((s) => (
-            <div>
+            <div class="fusion-stat reveal-fusion">
               <dt class="font-display text-3xl text-canopee">{s.value}</dt>
               <dd class="mt-2 text-[0.62rem] uppercase tracking-[0.14em] text-foret/50">
                 <span data-bilingual-fr>{s.labelFr}</span>
@@ -299,9 +299,9 @@ const amenityList = [...amenities, ...moreAmenities];
       </div>
       <div class="fusion-pane bg-creme" data-reveal-group>
         <p class="fusion-kicker reveal-fusion">08 — FAQ</p>
-        <div class="fusion-faq mt-8 divide-y divide-foret/10 border-y border-foret/10 reveal-fusion">
+        <div class="fusion-faq mt-8 divide-y divide-foret/10 border-y border-foret/10">
           {faq.map((item) => (
-            <details class="group py-5">
+            <details class="group py-5 reveal-fusion">
               <summary class="flex cursor-pointer list-none justify-between gap-4 font-medium">
                 <span>
                   <span data-bilingual-fr>{item.qFr}</span>
@@ -321,13 +321,13 @@ const amenityList = [...amenities, ...moreAmenities];
 
     <section id="contact" class="fusion-band bg-foret text-creme">
       <div class="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 md:flex-row md:items-end md:justify-between" data-reveal-group>
-        <div class="reveal-fusion">
-          <p class="fusion-kicker">Visite</p>
-          <h2 class="fusion-h2 fusion-underline mt-6">
+        <div>
+          <p class="fusion-kicker reveal-fusion">Visite</p>
+          <h2 class="fusion-h2 fusion-underline mt-6 reveal-fusion">
             <span data-bilingual-fr>{visitInfo.ctaFr}</span>
             <span data-bilingual-ar hidden>{visitInfo.ctaAr}</span>
           </h2>
-          <p class="mt-5 text-creme/70">{site.phone} · <span data-bilingual-fr>{visitInfo.hoursFr}</span><span data-bilingual-ar hidden>{visitInfo.hoursAr}</span></p>
+          <p class="mt-5 text-creme/70 reveal-fusion">{site.phone} · <span data-bilingual-fr>{visitInfo.hoursFr}</span><span data-bilingual-ar hidden>{visitInfo.hoursAr}</span></p>
         </div>
         <div class="flex flex-wrap gap-3 reveal-fusion">
           <a href={site.whatsapp} class="btn btn-solid" target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp</a>
