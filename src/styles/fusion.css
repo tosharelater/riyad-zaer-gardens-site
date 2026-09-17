@@ -76,9 +76,10 @@
   box-shadow: 0 10px 24px rgb(0 0 0 / 0.22);
 }
 [data-fusion-header] .header-brand img {
-  width: 86%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  transform: scale(1.3);
 }
 [data-fusion-header].is-scrolled .header-bar {
   border-color: rgb(200 181 104 / 0.18);
