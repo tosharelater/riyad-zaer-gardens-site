@@ -28,7 +28,8 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
     <style is:global define:vars={{
       fontRegular: `url("${assetBase}fonts/audrey/Audrey-Regular.otf")`,
       fontMedium: `url("${assetBase}fonts/audrey/Audrey-Medium.otf")`,

@@ -12,44 +12,46 @@ const mobile = [extraLinks[0], ...navLinks, ...extraLinks.slice(1)];
 ---
 
 <header
-  class="sticky top-0 z-50 border-b border-creme/10 bg-foret text-creme"
+  class="site-header z-50"
   data-site-header
   data-fusion-header
 >
-  <div class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-    <a href={withBase('/')} class="flex shrink-0 items-center" aria-label={site.name}>
-      <img src={withBase('/logo.png')} alt="" width="140" height="56" class="h-8 w-auto" />
-    </a>
+  <div class="header-shell">
+    <div class="header-bar flex h-14 items-center gap-4 px-8 sm:px-12 lg:px-16">
+      <a href={withBase('/')} class="header-brand" aria-label={site.name}>
+        <img src={withBase('/logo.png')} alt="" width="280" height="280" />
+      </a>
 
-    <nav class="hidden items-center gap-5 xl:gap-6 lg:flex" aria-label="Navigation">
-      {navLinks.map((l) => (
-        <a
-          href={l.href}
-          class:list={['fusion-nav-link text-[0.68rem] font-medium uppercase tracking-[0.16em] text-creme/70 transition hover:text-gold', current === l.id && 'is-active text-gold']}
-          data-i18n={l.key}
+      <nav class="hidden min-w-0 flex-1 items-center justify-center gap-5 lg:flex xl:gap-6" aria-label="Navigation">
+        {navLinks.map((l) => (
+          <a
+            href={l.href}
+            class:list={['fusion-nav-link text-[0.68rem] font-medium uppercase tracking-[0.16em] text-creme/70 transition hover:text-gold', current === l.id && 'is-active text-gold']}
+            data-i18n={l.key}
+          >
+            {l.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+        <a href={`tel:${site.phoneTel}`} class="hidden text-xs font-medium text-gold 2xl:inline">{site.phone}</a>
+        <div class="lang-toggle flex rounded-full border border-creme/15 p-0.5 text-[0.65rem] font-semibold" role="group">
+          <button type="button" data-lang="fr" aria-pressed="true" class="rounded-full px-2.5 py-1">FR</button>
+          <button type="button" data-lang="ar" aria-pressed="false" class="rounded-full px-2.5 py-1">AR</button>
+        </div>
+        <a class="btn btn-solid btn-sm hidden !px-4 !py-2 sm:inline-flex" href={site.whatsapp} target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp</a>
+        <button
+          type="button"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-creme/15 lg:hidden"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-label="Menu"
         >
-          {l.label}
-        </a>
-      ))}
-    </nav>
-
-    <div class="flex items-center gap-2 sm:gap-3">
-      <a href={`tel:${site.phoneTel}`} class="hidden text-xs font-medium text-gold 2xl:inline">{site.phone}</a>
-      <div class="lang-toggle flex rounded-full border border-creme/15 p-0.5 text-[0.65rem] font-semibold" role="group">
-        <button type="button" data-lang="fr" aria-pressed="true" class="rounded-full px-2.5 py-1">FR</button>
-        <button type="button" data-lang="ar" aria-pressed="false" class="rounded-full px-2.5 py-1">AR</button>
+          <svg class="h-5 w-5 nav-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg class="hidden h-5 w-5 nav-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
       </div>
-      <a class="btn btn-solid btn-sm hidden !px-4 !py-2 sm:inline-flex" href={site.whatsapp} target="_blank" rel="noopener" data-i18n="cta_whatsapp">WhatsApp</a>
-      <button
-        type="button"
-        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-creme/15 lg:hidden"
-        data-nav-toggle
-        aria-expanded="false"
-        aria-label="Menu"
-      >
-        <svg class="h-5 w-5 nav-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        <svg class="hidden h-5 w-5 nav-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
     </div>
   </div>
 

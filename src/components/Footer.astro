@@ -8,7 +8,7 @@ import { withBase } from '../lib/base';
   <div class="container-rzg">
     <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
       <div class="lg:col-span-2">
-        <img src={withBase('/logo.png')} alt={site.name} width="180" height="72" class="mb-5 h-14 w-auto" />
+        <img src={withBase('/logo.png')} alt={site.name} width="280" height="112" class="mb-5 h-24 w-auto" />
         <p class="max-w-md text-sm leading-relaxed text-creme/70">
           <span data-bilingual-fr>Nouveau pôle urbain à Aïn Aouda — appartements F3 & F4 et fonds de commerce, livraison {site.delivery}.</span>
           <span data-bilingual-ar hidden>قطب حضري جديد في عين عودة — شقق F3 و F4 ومحلات تجارية، التسليم {site.delivery}.</span>
@@ -38,7 +38,6 @@ import { withBase } from '../lib/base';
 
     <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-creme/10 pt-6 text-xs text-creme/45 sm:flex-row">
       <p>© {new Date().getFullYear()} {site.name}</p>
-      <a href={withBase('/design-system/')} class="hover:text-creme/70">Design system</a>
     </div>
   </div>
 </footer>

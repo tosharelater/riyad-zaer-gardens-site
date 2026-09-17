@@ -10,15 +10,24 @@ const repo = 'riyad-zaer-gardens-site';
 export default defineConfig({
   site: pages ? `https://tosharelater.github.io/${repo}` : undefined,
   base: pages ? `/${repo}` : '/',
-  trailingSlash: 'always',
+  trailingSlash: 'ignore',
   redirects: {
+    '/typologies': '/projet/',
     '/typologies/': '/projet/',
+    '/equipements': '/projet/',
     '/equipements/': '/projet/',
+    '/chantier': '/projet/',
     '/chantier/': '/projet/',
+    '/a-propos': '/projet/',
     '/a-propos/': '/projet/',
+    '/aides': '/contact/',
     '/aides/': '/contact/',
+    '/faq': '/contact/',
     '/faq/': '/contact/',
+    '/blog': '/',
     '/blog/': '/',
+    '/design-system': '/',
+    '/design-system/': '/',
   },
   vite: {
     plugins: [tailwindcss()]

@@ -114,8 +114,10 @@ const amenityList = [...amenities, ...moreAmenities];
       </div>
       <div class="typo-stack">
         <div class="typo-panel typo-panel--title" style="z-index:1">
-          <p class="fusion-kicker">02 — Typologies</p>
-          <h2 class="fusion-h2">F3 · F4 · Commerce</h2>
+          <div class="typo-title-inner">
+            <p class="typo-kicker-bar">02 — Typologies</p>
+            <h2 class="fusion-h2">F3 · F4 · Commerce</h2>
+          </div>
         </div>
         {typologies.map((t, i) => (
           <article
@@ -187,8 +189,10 @@ const amenityList = [...amenities, ...moreAmenities];
     </section>
 
     <section id="chantier" class="chantier-shot">
-      <img class="chantier-shot__bg" src={withBase('/gallery/render-4.jpg')} alt="" />
-      <div class="chantier-shot__veil" aria-hidden="true"></div>
+      <div class="chantier-shot__stage">
+        <img class="chantier-shot__bg" src={withBase('/gallery/render-4.jpg')} alt="" />
+        <div class="chantier-shot__veil" aria-hidden="true"></div>
+      </div>
       <div class="chantier-shot__inner mx-auto max-w-5xl px-4 sm:px-6" data-reveal-group>
         <p class="fusion-kicker reveal-fusion">05 — Chantier</p>
         <h2 class="fusion-h2 mt-6 reveal-fusion">
@@ -252,7 +256,7 @@ const amenityList = [...amenities, ...moreAmenities];
       </div>
     </section>
 
-    <section class="bg-foret" aria-label="Galerie">
+    <section class="film-gallery bg-foret" aria-label="Galerie" data-film-gallery>
       <div class="mx-auto max-w-7xl px-4 pt-16 sm:px-6" data-reveal-group>
         <p class="fusion-kicker reveal-fusion">Galerie</p>
         <h2 class="fusion-h2 mt-6 text-creme reveal-fusion">
@@ -262,10 +266,14 @@ const amenityList = [...amenities, ...moreAmenities];
       </div>
       <div class="film-strip mt-10">
         <div class="film-strip__track">
-          {[...galleryImages, ...galleryImages].map((img) => (
-            <img src={img.src} alt="" loading="lazy" />
+          {[...galleryImages, ...galleryImages].map((img, i) => (
+            <img src={img.src} alt="" data-film-i={i % galleryImages.length} loading="lazy" />
           ))}
         </div>
+      </div>
+      <div class="film-popup" data-film-preview aria-hidden="true">
+        <img data-film-a alt="" />
+        <img data-film-b alt="" />
       </div>
     </section>
 

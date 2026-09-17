@@ -28,24 +28,6 @@ import { aidSteps, visitInfo } from '../data/home-content';
     </section>
 
     <section class="fusion-split fusion-split--short">
-      <div class="fusion-pane bg-canopee text-creme" data-reveal-group>
-        <p class="fusion-kicker reveal-fusion">Aides</p>
-        <h2 class="fusion-h2 mt-6 text-creme reveal-fusion">Daam Sakane</h2>
-        <p class="fusion-lead text-creme/80 reveal-fusion">
-          <span data-bilingual-fr>Jusqu'à {site.aidAmount} — indicatif {site.priceWithAid} avec aide.</span>
-          <span data-bilingual-ar hidden>حتى {site.aidAmount} — تقريبي {site.priceWithAid} مع الدعم.</span>
-        </p>
-        <ol class="fusion-steps mt-10">
-          {aidSteps.map((step) => (
-            <li class="reveal-fusion">
-              <span>
-                <span data-bilingual-fr>{step.fr}</span>
-                <span data-bilingual-ar hidden>{step.ar}</span>
-              </span>
-            </li>
-          ))}
-        </ol>
-      </div>
       <div class="fusion-pane bg-white" data-reveal-group>
         <p class="fusion-kicker reveal-fusion">FAQ</p>
         <div class="fusion-faq mt-8 divide-y divide-foret/10 border-y border-foret/10 reveal-fusion">
@@ -65,6 +47,24 @@ import { aidSteps, visitInfo } from '../data/home-content';
             </details>
           ))}
         </div>
+      </div>
+      <div class="fusion-pane bg-canopee text-creme" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">Aides</p>
+        <h2 class="fusion-h2 mt-6 text-creme reveal-fusion">Daam Sakane</h2>
+        <p class="fusion-lead text-creme/80 reveal-fusion">
+          <span data-bilingual-fr>Jusqu'à {site.aidAmount} — indicatif {site.priceWithAid} avec aide.</span>
+          <span data-bilingual-ar hidden>حتى {site.aidAmount} — تقريبي {site.priceWithAid} مع الدعم.</span>
+        </p>
+        <ol class="fusion-steps mt-10">
+          {aidSteps.map((step) => (
+            <li class="reveal-fusion">
+              <span>
+                <span data-bilingual-fr>{step.fr}</span>
+                <span data-bilingual-ar hidden>{step.ar}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   </div>

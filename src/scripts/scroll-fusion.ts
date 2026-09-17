@@ -2,7 +2,6 @@ export function initScrollFusion(): void {
   if (!document.querySelector('[data-fusion-page]')) return;
 
   initHeaderScroll();
-  initHeaderHide();
   initScrollProgress();
   initFusionReveal();
   initCounterReveal();
@@ -10,6 +9,8 @@ export function initScrollFusion(): void {
   initMediaReveal();
   initRowReveal();
   initTypoTicks();
+  initTypoTitleLift();
+  initFilmGallery();
   initInView('[data-fill-track]', 'is-in');
   initInView('[data-phase-track]', 'is-in');
 }
@@ -27,33 +28,6 @@ function initHeaderScroll(): void {
   };
   window.addEventListener('scroll', update, { passive: true });
   update();
-}
-
-function initHeaderHide(): void {
-  if (!document.querySelector('[data-fx-lab]')) return;
-  const header = document.querySelector<HTMLElement>('[data-fusion-header]');
-  if (!header) return;
-
-  let last = window.scrollY;
-  let ticking = false;
-  const update = () => {
-    const y = window.scrollY;
-    const open = header.querySelector('[data-nav-toggle]')?.getAttribute('aria-expanded') === 'true';
-    header.classList.toggle('is-away', !open && y > last && y > 90);
-    last = y;
-    ticking = false;
-  };
-
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    },
-    { passive: true },
-  );
 }
 
 function initScrollProgress(): void {
@@ -250,6 +224,113 @@ function initTypoTicks(): void {
       panels[i]?.scrollIntoView({ block: 'start' });
     });
   });
+}
+
+function initTypoTitleLift(): void {
+  const title = document.querySelector<HTMLElement>('.typo-panel--title');
+  const inner = title?.querySelector<HTMLElement>('.typo-title-inner');
+  const heading = title?.querySelector<HTMLElement>('.fusion-h2');
+  const next = title?.nextElementSibling as HTMLElement | null;
+  if (!title || !inner || !heading || !next) return;
+
+  let ticking = false;
+  const update = () => {
+    if (prefersReducedMotion()) {
+      inner.style.transform = '';
+      ticking = false;
+      return;
+    }
+    const currentY = new DOMMatrix(getComputedStyle(inner).transform).m42;
+    const naturalBottom = heading.getBoundingClientRect().bottom - currentY;
+    const clearance = Math.max(88, Math.round(window.innerHeight * 0.14));
+    const overlap = naturalBottom + clearance - next.getBoundingClientRect().top;
+    inner.style.transform = overlap > 0 ? `translate3d(0, ${-overlap}px, 0)` : '';
+    ticking = false;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
+  update();
+}
+
+function initFilmGallery(): void {
+  const root = document.querySelector<HTMLElement>('[data-film-gallery]');
+  if (!root) return;
+
+  const strip = root.querySelector<HTMLElement>('.film-strip');
+  const preview = root.querySelector<HTMLElement>('[data-film-preview]');
+  const layerA = preview?.querySelector<HTMLImageElement>('[data-film-a]');
+  const layerB = preview?.querySelector<HTMLImageElement>('[data-film-b]');
+  const thumbs = [...root.querySelectorAll<HTMLImageElement>('[data-film-i]')];
+  if (!strip || !preview || !layerA || !layerB || !thumbs.length) return;
+
+  const sources = [...new Set(thumbs.map((img) => img.getAttribute('src') || ''))].filter(Boolean);
+  if (!sources.length) return;
+
+  let index = 0;
+  let usingA = true;
+  let cycleTimer = 0;
+  let startTimer = 0;
+
+  const markHot = (i: number) => {
+    thumbs.forEach((thumb) => {
+      thumb.classList.toggle('is-hot', Number(thumb.dataset.filmI) === i);
+    });
+  };
+
+  const show = (i: number) => {
+    index = (i + sources.length) % sources.length;
+    const incoming = usingA ? layerB : layerA;
+    const outgoing = usingA ? layerA : layerB;
+    incoming.src = sources[index];
+    incoming.classList.add('is-show');
+    outgoing.classList.remove('is-show');
+    usingA = !usingA;
+    markHot(index);
+  };
+
+  const stopCycle = () => {
+    window.clearTimeout(startTimer);
+    window.clearInterval(cycleTimer);
+    startTimer = 0;
+    cycleTimer = 0;
+  };
+
+  const close = () => {
+    stopCycle();
+    preview.classList.remove('is-on');
+    strip.classList.remove('is-paused');
+    thumbs.forEach((thumb) => thumb.classList.remove('is-hot'));
+    layerA.classList.remove('is-show');
+    layerB.classList.remove('is-show');
+  };
+
+  const open = (i: number) => {
+    stopCycle();
+    strip.classList.add('is-paused');
+    preview.classList.add('is-on');
+    show(i);
+    if (prefersReducedMotion()) return;
+    startTimer = window.setTimeout(() => {
+      cycleTimer = window.setInterval(() => show(index + 1), 2000);
+    }, 2000);
+  };
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('mouseenter', () => {
+      open(Number(thumb.dataset.filmI) || 0);
+    });
+  });
+
+  root.addEventListener('mouseleave', close);
 }
 
 function initInView(selector: string, className: string): void {

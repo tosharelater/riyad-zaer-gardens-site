@@ -81,31 +81,28 @@ html.is-wiping .page-wipe:not(.is-cover):not(.is-exit) {
 }
 
 .splash__wash {
-  width: 18rem;
+  width: 28rem;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgb(200 181 104 / 0.0) 30%,
-    rgb(217 201 135 / 0.16) 50%,
-    rgb(200 181 104 / 0.0) 70%,
+    rgb(200 181 104 / 0.05) 50%,
     transparent 100%
   );
-  filter: blur(12px);
+  filter: blur(28px);
   opacity: 0;
 }
 
 .splash__beam {
-  width: 7.5rem;
+  width: 18rem;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgb(247 242 232 / 0) 40%,
-    rgb(217 201 135 / 0.22) 47.5%,
-    rgb(247 242 232 / 0.78) 50%,
-    rgb(200 181 104 / 0.28) 52.5%,
-    rgb(247 242 232 / 0) 60%,
+    rgb(200 181 104 / 0.06) 35%,
+    rgb(217 201 135 / 0.18) 50%,
+    rgb(200 181 104 / 0.06) 65%,
     transparent 100%
   );
+  filter: blur(14px);
   opacity: 0;
 }
 
@@ -135,11 +132,11 @@ html.is-wiping .page-wipe:not(.is-cover):not(.is-exit) {
     opacity: 0;
     transform: translate3d(-50vw, 0, 0) rotate(26deg);
   }
-  10% {
-    opacity: 1;
+  22% {
+    opacity: 0.7;
   }
-  78% {
-    opacity: 1;
+  55% {
+    opacity: 0.45;
   }
   100% {
     opacity: 0;
